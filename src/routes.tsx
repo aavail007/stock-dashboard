@@ -1,18 +1,18 @@
-import type { RouteObject } from "react-router-dom";
-import Home from "./pages/home/Home";
-import StockAnalysis from "./pages/stockAnalysis/stockAnalysis"
+import type { RouteObject } from 'react-router-dom';
+import Home from './pages/home/Home';
+import StockAnalysis from './pages/stockAnalysis/stockAnalysis'
 
 const routes: RouteObject[] = [
   {
-    path: "/",
+    path: '/',
     element: <Home />,
-    children: [],
+    children: []
   },
   {
-    path: "/stock-analysis",
+    path: '/stock-analysis',
     element: <StockAnalysis />,
-    children: [],
+    children: []
   }
-];
+]
 
-export default routes;
+export default routes
