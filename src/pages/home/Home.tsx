@@ -1,25 +1,33 @@
 import { useGetTaiwanStockAnalysisQuery } from "services/homeServices"
 import Header from "components/layout/Header"
+import Card from "pages/home/components/Card"
+import { AnalysisObj, InstitutionalInvestor } from 'types/apis/taiwanStockAnalysis'
+
+
 const Home: React.FC = () => {
 	const { data, isLoading } = useGetTaiwanStockAnalysisQuery(2330);
-	console.log(data);
-
+	let institutionalInvestorList: InstitutionalInvestor[] = []
+	if (data) {
+		const institutionalInvestor: AnalysisObj<InstitutionalInvestor> = data?.data.InstitutionalInvestor
+		console.log('institutionalInvestor', institutionalInvestor);
+		institutionalInvestorList = institutionalInvestor.InstitutionalInvestor
+		console.log(institutionalInvestorList);
+	}
 	return (
 		<>
 			<Header></Header>
-			<div className="mt-8 ml-8 shadow-lg box-border p-2" >
-				Home
-				<>
-					<div className="relative pt-32 pb-32">
-						<div className="px-4 md:px-6 mx-auto w-full">
-							<div>
-								<div className="flex flex-wrap">
-									123
-								</div>
+			<div className="flex flex-wrap px-10">
+				{
+					institutionalInvestorList.map((item) => {
+						return (
+							<div className="w-full lg:w-6/12 xl:w-1/5  px-4 first:px-0 last::px-0" key={item.name}>
+								{item.name}
+								<Card></Card>
 							</div>
-						</div>
-					</div>
-				</>
+						)
+					})
+
+				}
 			</div>
 		</>
 	)
