@@ -1,10 +1,10 @@
 import { useGetTaiwanStockAnalysisQuery } from "services/findmindV2Service"
-import { useGetTaiwanStockTotalInstitutionalInvestorsQuery } from "services/findmindV4Service"
+import { useGetTwStockTotalInstitutionalInvestorsQuery } from "services/findmindV4Service"
 
 import Header from "components/layout/Header"
 import Card1 from "pages/home/components/Card1"
-import { AnalysisObj, InstitutionalInvestor } from 'types/apis/taiwanStockAnalysis'
-import { TaiwanStockTotalInstitutionalInvestors } from 'types/apis/taiwanStockTotalInstitutionalInvestors'
+import { AnalysisObj, InstitutionalInvestor } from 'types/apis/twStockAnalysis'
+import { TwStockTotalInstitutionalInvestors } from 'types/apis/twStockTotalInstitutionalInvestors'
 import { getTodayDate } from 'commonFunc'
 
 const todayDate = getTodayDate()
@@ -20,8 +20,8 @@ const Home: React.FC = () => {
 	}
 
 	// 台灣市場整體法人買賣表
-	const twTotalInstitutionalInvestors = useGetTaiwanStockTotalInstitutionalInvestorsQuery({ start_date: todayDate });
-	let twTotalInstitutionalInvestorsData: TaiwanStockTotalInstitutionalInvestors[] = []
+	const twTotalInstitutionalInvestors = useGetTwStockTotalInstitutionalInvestorsQuery({ start_date: todayDate });
+	let twTotalInstitutionalInvestorsData: TwStockTotalInstitutionalInvestors[] = []
 	if (twTotalInstitutionalInvestors.data) {
 		twTotalInstitutionalInvestorsData = twTotalInstitutionalInvestors.data?.data
 		console.log('台灣市場整體法人買賣表: twTotalInstitutionalInvestorsData = ', twTotalInstitutionalInvestorsData);

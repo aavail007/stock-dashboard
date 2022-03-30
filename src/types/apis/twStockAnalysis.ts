@@ -1,5 +1,5 @@
 // 個股分析
-export type TaiwanStockAnalysisData = {
+export type TwStockAnalysisData = {
   InstitutionalInvestor: AnalysisObj<InstitutionalInvestor>,
   MarginPurchaseShortSale: AnalysisObj<MarginPurchaseShortSale>,
   Shareholding: AnalysisObj<Shareholding>
