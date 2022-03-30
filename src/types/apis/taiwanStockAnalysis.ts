@@ -1,11 +1,3 @@
-// 台灣市場整體法人買賣表
-export type TaiwanStockTotalInstitutionalInvestors = {
-  buy: number,
-  date: string,
-  name: string,
-  sell: number
-}
-
 // 個股分析
 export type TaiwanStockAnalysisData = {
   InstitutionalInvestor: AnalysisObj<InstitutionalInvestor>,

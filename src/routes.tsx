@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
-import Home from './pages/home/Home';
+import Home from './pages/home';
 import StockAnalysis from './pages/stockAnalysis/stockAnalysis'
 
 const routes: RouteObject[] = [

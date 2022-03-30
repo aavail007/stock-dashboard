@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ApiRes } from 'types/utils/apiRes'
+import { ApiRes } from 'types/utils/apiFormat'
 import { TaiwanStockAnalysisData } from 'types/apis/taiwanStockAnalysis'
 
 export const findmindV2Service = createApi({
