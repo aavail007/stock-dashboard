@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ApiRes } from 'types/utils/apiRes'
 import { TaiwanStockAnalysisData } from 'types/apis/taiwanStockAnalysis'
 
-export const homeApi = createApi({
-	reducerPath: "homeApi",
+export const findmindV2Service = createApi({
+	reducerPath: "findmindV2Service",
 	baseQuery: fetchBaseQuery({ baseUrl: "https://api.web.finmindtrade.com/v2/" }),
 	endpoints: (builder) => ({
 		// 取得個股分析
@@ -15,4 +15,4 @@ export const homeApi = createApi({
 	}),
 });
 
-export const { useGetTaiwanStockAnalysisQuery } = homeApi
+export const { useGetTaiwanStockAnalysisQuery } = findmindV2Service

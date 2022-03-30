@@ -1,12 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { homeApi } from "services/homeServices";
+import { findmindV4Service } from "services/findmindV4Service";
+import { findmindV2Service } from "services/findmindV2Service";
+
 
 export const store = configureStore({
   reducer: {
-    [homeApi.reducerPath]: homeApi.reducer,
+    [findmindV2Service.reducerPath]: findmindV2Service.reducer,
+    [findmindV4Service.reducerPath]: findmindV4Service.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(homeApi.middleware),
+    getDefaultMiddleware()
+    .concat(findmindV4Service.middleware)
+    .concat(findmindV2Service.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
