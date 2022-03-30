@@ -6,5 +6,10 @@
     "Foreign_Dealer_Self": "外資自營商",
     "Foreign_Investor": "外資",
     "Investment_Trust": "投信"
+  },
+  "TaiwanStockTotalMarginPurchaseShortSale": {
+    "MarginPurchase": "融資",
+    "MarginPurchaseMoney": "融資金額",
+    "ShortSale": "融券"
   }
 }

@@ -1,14 +1,15 @@
 import { translationWord, tranNumber } from 'commonFunc'
 type Card1Props = {
+  translation: string,
   name: string,
   buy: number,
   sell: number
 }
 
-const Card1: React.FC<Card1Props> = ({ name, buy, sell }) => {
-  const zh_name = translationWord('TaiwanStockInstitutionalInvestorsBuySell', name)
+const Card1: React.FC<Card1Props> = ({ translation, name, buy, sell }) => {
+  const zh_name = translationWord(translation, name)
   const total = buy - sell
-  const totalStr = total > 0 ? '+' + tranNumber(total) : '-' + tranNumber(total)
+  const totalStr = total > 0 ? '+' + tranNumber(total) : tranNumber(total)
   return (
     <>
       <div className="relative flex flex-col min-w-0 break-words bg-white rounded-xl mb-6 xl:mb-0 shadow-xl">

@@ -1,15 +1,15 @@
-import { useGetTwStockTotalInstitutionalInvestorsQuery } from "services/findmindV4Service"
+import { useGetV4DataQuery } from "services/findmindV4Service"
 
 import Header from "components/layout/Header"
 import Card1 from "pages/home/components/Card1"
-import { TwStockTotalInstitutionalInvestors } from 'types/apis/twStockTotalInstitutionalInvestors'
+import { TwStkTotalInstitutionalInvestors, TwStkTotalMarginPurchaseShortSale } from 'types/apis/v4Types'
 import { getTodayDate } from 'commonFunc'
 
 const todayDate = getTodayDate()
 const Home: React.FC = () => {
 	// 台灣市場整體法人買賣表
-	const twTotalInstitutionalInvestors = useGetTwStockTotalInstitutionalInvestorsQuery({ start_date: todayDate });
-	let twTotalInstitutionalInvestorsData: TwStockTotalInstitutionalInvestors[] = []
+	const twTotalInstitutionalInvestors = useGetV4DataQuery({ dataset: 'TaiwanStockTotalInstitutionalInvestors', start_date: todayDate });
+	let twTotalInstitutionalInvestorsData: TwStkTotalInstitutionalInvestors[] = []
 	if (twTotalInstitutionalInvestors.data) {
 		twTotalInstitutionalInvestorsData = twTotalInstitutionalInvestors.data?.data
 		console.log('台灣市場整體法人買賣表: twTotalInstitutionalInvestorsData = ', twTotalInstitutionalInvestorsData);
@@ -17,19 +17,45 @@ const Home: React.FC = () => {
 		twTotalInstitutionalInvestorsData = twTotalInstitutionalInvestorsData.filter(item => item.name !== 'total')
 	}
 
+	// 台灣市場整體融資融劵表
+	const twStockTotalMarginPurchaseShortSale = useGetV4DataQuery({ dataset: 'TaiwanStockTotalMarginPurchaseShortSale', start_date: todayDate })
+	let twStockTotalMarginPurchaseShortSaleData: TwStkTotalMarginPurchaseShortSale[] = []
+	if (twStockTotalMarginPurchaseShortSale.data) {
+		twStockTotalMarginPurchaseShortSaleData = twStockTotalMarginPurchaseShortSale.data?.data
+		console.log('資券', twStockTotalMarginPurchaseShortSaleData);
+	}
+
+
 	return (
 		<>
 			<Header></Header>
 			<div className="p-10">
 				<div className="">
-					<h3 className="text-xl text-gray-800 font-bold">三大法人 - {todayDate}</h3>
+					<h3 className="text-xl text-gray-800 font-bold mb-5">三大法人 - {todayDate}</h3>
 					<div className="flex flex-wrap my-3">
 						{
 							twTotalInstitutionalInvestorsData.map((item) => {
 								const { name, buy, sell } = item
 								return (
 									<div className="w-full lg:w-6/12 xl:w-1/5  px-4 first:px-0 last::px-0" key={item.name}>
-										<Card1 name={name} buy={buy} sell={sell}></Card1>
+										<Card1 translation="TaiwanStockInstitutionalInvestorsBuySell" name={name} buy={buy} sell={sell}></Card1>
+									</div>
+								)
+							})
+
+						}
+					</div>
+				</div>
+
+				<div className="">
+					<h3 className="text-xl text-gray-800 font-bold mb-5">資券變化 - {todayDate}</h3>
+					<div className="flex flex-wrap my-3">
+						{
+							twStockTotalMarginPurchaseShortSaleData.map((item) => {
+								const { name, buy, sell } = item
+								return (
+									<div className="w-full lg:w-6/12 xl:w-1/5  px-4 first:px-0 last::px-0" key={item.name}>
+										<Card1 translation="TaiwanStockTotalMarginPurchaseShortSale" name={name} buy={buy} sell={sell}></Card1>
 									</div>
 								)
 							})

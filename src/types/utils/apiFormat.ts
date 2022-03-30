@@ -7,6 +7,7 @@ export type ApiRes<T> = {
 
 // API 需求參數
 export type ApiParameter = {
+  dataset?: string,
   start_date?: string,
   data_id?: number,
   token?: string

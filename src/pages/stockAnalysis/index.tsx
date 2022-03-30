@@ -1,5 +1,6 @@
 import { useGetTaiwanStockAnalysisQuery } from "services/findmindV2Service"
 import { AnalysisObj, InstitutionalInvestor } from 'types/apis/twStockAnalysis'
+import Header from "components/layout/Header"
 
 const StockAnalysis: React.FC = () => {
   // 個股分析
@@ -12,9 +13,12 @@ const StockAnalysis: React.FC = () => {
     console.log(institutionalInvestorList);
   }
   return (
-    <div className="mt-8 ml-8 shadow-lg box-border p-2" >
-      StockAnalysis
-    </div>
+    <>
+      <Header></Header>
+      <div className="mt-8 ml-8 shadow-lg box-border p-2" >
+        StockAnalysis
+      </div>
+    </>
   )
 };
 
