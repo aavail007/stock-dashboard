@@ -2,10 +2,12 @@ import { useGetV4DataQuery } from "services/findmindV4Service"
 
 import Header from "components/layout/Header"
 import Card1 from "pages/home/components/Card1"
+import Card2 from "pages/home/components/Card2"
 import { TwStkTotalInstitutionalInvestors, TwStkTotalMarginPurchaseShortSale } from 'types/apis/v4Types'
-import { getTodayDate } from 'commonFunc'
+import { getDate } from 'commonFunc'
 
-const todayDate = getTodayDate()
+// TODO: 暫時先拿前一天，API 今天的資料還未整理好
+const todayDate = getDate(-1)
 const Home: React.FC = () => {
 	// 台灣市場整體法人買賣表
 	const twTotalInstitutionalInvestors = useGetV4DataQuery({ dataset: 'TaiwanStockTotalInstitutionalInvestors', start_date: todayDate });
@@ -30,36 +32,34 @@ const Home: React.FC = () => {
 		<>
 			<Header></Header>
 			<div className="p-10">
-				<div className="">
+				<div className="mb-10">
 					<h3 className="text-xl text-gray-800 font-bold mb-5">三大法人 - {todayDate}</h3>
 					<div className="flex flex-wrap my-3">
 						{
 							twTotalInstitutionalInvestorsData.map((item) => {
 								const { name, buy, sell } = item
 								return (
-									<div className="w-full lg:w-6/12 xl:w-1/5  px-4 first:px-0 last::px-0" key={item.name}>
+									<div className="w-full lg:w-6/12 xl:w-1/5  lg:px-4 first:px-0 last::px-0" key={item.name}>
 										<Card1 translation="TaiwanStockInstitutionalInvestorsBuySell" name={name} buy={buy} sell={sell}></Card1>
 									</div>
 								)
 							})
-
 						}
 					</div>
 				</div>
 
-				<div className="">
+				<div className="mb-10 lg:w-1/5">
 					<h3 className="text-xl text-gray-800 font-bold mb-5">資券變化 - {todayDate}</h3>
 					<div className="flex flex-wrap my-3">
 						{
 							twStockTotalMarginPurchaseShortSaleData.map((item) => {
 								const { name, buy, sell } = item
 								return (
-									<div className="w-full lg:w-6/12 xl:w-1/5  px-4 first:px-0 last::px-0" key={item.name}>
-										<Card1 translation="TaiwanStockTotalMarginPurchaseShortSale" name={name} buy={buy} sell={sell}></Card1>
+									<div className="w-full" key={item.name}>
+										<Card2 translation="TaiwanStockTotalMarginPurchaseShortSale" name={name} buy={buy} sell={sell}></Card2>
 									</div>
 								)
 							})
-
 						}
 					</div>
 				</div>

@@ -10,8 +10,8 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
-    .concat(findmindV4Service.middleware)
-    .concat(findmindV2Service.middleware),
+      .concat(findmindV4Service.middleware)
+      .concat(findmindV2Service.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

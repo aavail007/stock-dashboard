@@ -6,12 +6,14 @@ export function translationWord(key: string, text: string): string {
   return translationObj[key][text]
 }
 
-// 取得今天日期(xxxx-xx-xx)
-export function getTodayDate(): string {
+// 取得某天日期(xxxx-xx-xx)，day = 要回推/增加的天數
+export function getDate(day: number): string {
   const today = new Date();
-  const year = today.getFullYear()
-  const month = (today.getMonth() + 1) > 9 ? today.getMonth() + 1 : '0' + (today.getMonth() + 1)
-  const date = (today.getDate()) > 9 ? today.getDate() : '0' + today.getDate()
+  const targetDate = today.setDate(today.getDate() + day)
+  const targetDay = new Date(targetDate)
+  const year = targetDay.getFullYear()
+  const month = (targetDay.getMonth() + 1) > 9 ? targetDay.getMonth() + 1 : '0' + (targetDay.getMonth() + 1)
+  const date = (targetDay.getDate()) > 9 ? targetDay.getDate() : '0' + targetDay.getDate()
   return `${year}-${month}-${date}`
 }
 

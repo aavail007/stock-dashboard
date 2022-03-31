@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 const Header: React.FC = () => {
   const goPage = useNavigate()
   return (
-    <header className="sticky top-0 w-full bg-main text-white py-5 px-10">
+    <header className="sticky top-0 w-full bg-main text-white py-5 px-10 z-10">
       <div className="flex items-center justify-between">
         <div className="flex">
           <span className="cursor-pointer" onClick={() => {
