@@ -3,11 +3,12 @@ import { useGetV4DataQuery } from "services/findmindV4Service"
 import Header from "components/layout/Header"
 import Card1 from "pages/home/components/Card1"
 import Card2 from "pages/home/components/Card2"
+import IndicatorChart from "pages/home/components/IndicatorChart"
 import { TwStkTotalInstitutionalInvestors, TwStkTotalMarginPurchaseShortSale } from 'types/apis/v4Types'
 import { getDate } from 'commonFunc'
 
-// TODO: 暫時先拿前一天，API 今天的資料還未整理好
-const todayDate = getDate(-1)
+// TODO: API 今天的資料還未整理好時待處理撈前一天的資料
+const todayDate = getDate(0)
 const Home: React.FC = () => {
 	// 台灣市場整體法人買賣表
 	const twTotalInstitutionalInvestors = useGetV4DataQuery({ dataset: 'TaiwanStockTotalInstitutionalInvestors', start_date: todayDate });
@@ -31,7 +32,7 @@ const Home: React.FC = () => {
 	return (
 		<>
 			<Header></Header>
-			<div className="p-10">
+			<div className="px-10 py-6">
 				<div className="mb-10">
 					<h3 className="text-xl text-gray-800 font-bold mb-5">三大法人 - {todayDate}</h3>
 					<div className="flex flex-wrap my-3">
@@ -48,19 +49,25 @@ const Home: React.FC = () => {
 					</div>
 				</div>
 
-				<div className="mb-10 lg:w-1/5">
-					<h3 className="text-xl text-gray-800 font-bold mb-5">資券變化 - {todayDate}</h3>
-					<div className="flex flex-wrap my-3">
-						{
-							twStockTotalMarginPurchaseShortSaleData.map((item) => {
-								const { name, buy, sell } = item
-								return (
-									<div className="w-full" key={item.name}>
-										<Card2 translation="TaiwanStockTotalMarginPurchaseShortSale" name={name} buy={buy} sell={sell}></Card2>
-									</div>
-								)
-							})
-						}
+				<div className="flex">
+					<div className="mb-10 lg:w-1/5">
+						<h3 className="text-xl text-gray-800 font-bold mb-5">資券變化 - {todayDate}</h3>
+						<div className="flex flex-wrap my-3">
+							{
+								twStockTotalMarginPurchaseShortSaleData.map((item) => {
+									const { name, buy, sell } = item
+									return (
+										<div className="w-full" key={item.name}>
+											<Card2 translation="TaiwanStockTotalMarginPurchaseShortSale" name={name} buy={buy} sell={sell}></Card2>
+										</div>
+									)
+								})
+							}
+						</div>
+					</div>
+
+					<div className="mb-10 lg:w-2/5 px-4">
+						<IndicatorChart></IndicatorChart>
 					</div>
 				</div>
 			</div>

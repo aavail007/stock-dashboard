@@ -19,10 +19,10 @@ const Card1: React.FC<Card1Props> = ({ translation, name, buy, sell }) => {
           </div>
           <div className="flex flex-col justify-center items-center">
             <p className='text-lg mt-3'>{ totalStr }</p>
-            <p className="text-xl text-red-600 mt-2">
+            <p className="text-xl font-bold text-sRed mt-2">
               買進 {tranNumber(buy)}
             </p>
-            <p className="text-xl text-green-600 mt-2">
+            <p className="text-xl font-bold text-sGreen mt-2">
               賣出 {tranNumber(sell)}
             </p>
           </div>

@@ -16,3 +16,9 @@ export type TwStkTotalMarginPurchaseShortSale = {
   name: string,
   sell: number
 }
+
+// 加權指數 
+export type TwVariousIndicators = {
+  date: string,
+  TAIEX: number
+}
