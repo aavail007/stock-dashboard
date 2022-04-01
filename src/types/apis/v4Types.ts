@@ -22,3 +22,12 @@ export type TwVariousIndicators = {
   date: string,
   TAIEX: number
 }
+
+// 台股總覽(單一股票基本資訊)
+export type TwStockInfo = {
+  industry_category: string,
+  stock_id: string,
+  stock_name: string,
+  type: string,
+  date: string
+}
