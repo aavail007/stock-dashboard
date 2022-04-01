@@ -15,7 +15,7 @@ const Card1: React.FC<Card1Props> = ({ translation, name, buy, sell }) => {
       <div className="relative flex flex-col min-w-0 break-words bg-white rounded-xl mb-6 xl:mb-0 shadow-xl">
         <div className="flex-auto p-4 justify-center">
           <div className="flex flex-wrap justify-center">
-            <span className="font-bold text-xl text-center">{zh_name}</span>
+            <span className="font-bold text-lg lg:text-xl text-center">{zh_name}</span>
           </div>
           <div className="flex flex-col justify-center items-center">
             <p className='text-lg mt-3'>{ totalStr }</p>

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ApiRes } from 'types/utils/apiFormat'
-import { TwStockAnalysisData } from 'types/apis/twStockAnalysis'
+import { TwStockAnalysisData, TodayInfo } from 'types/apis/v2Types'
 
 export const findmindV2Service = createApi({
 	reducerPath: "findmindV2Service",
@@ -11,8 +11,14 @@ export const findmindV2Service = createApi({
 			query: (id) => {
 				return `taiwan_stock_analysis?stock_id=${id}`;
 			},
-		})
+		}),
+		// 取得今天總體資訊
+		getTodayInfo:  builder.query<ApiRes<TodayInfo>, null>({
+			query: () => {
+				return `today_info`;
+			},
+		}),
 	}),
 });
 
-export const { useGetTaiwanStockAnalysisQuery } = findmindV2Service
+export const { useGetTaiwanStockAnalysisQuery, useGetTodayInfoQuery } = findmindV2Service

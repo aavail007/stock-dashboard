@@ -32,3 +32,35 @@ export type Shareholding = {
   ForeignInvestmentSharesPer: number,
   date: string
 }
+
+// 今日總體資訊
+export type TodayInfo = {
+  InstitutionalInvestor: InstitutionalInvestor[],
+  TotalMarginPurchaseShortSale: TotalMarginPurchaseShortSale[],
+  USStockPrice: USStockPrice[]
+}
+
+// 融券
+export type TotalMarginPurchaseShortSale = {
+  TodayBalance: number,
+  YesBalance: number,
+  buy: number,
+  date: string,
+  name: string,
+  sell: number,
+  zh_name: string
+}
+
+// 道瓊工業指數
+export type USStockPrice = {
+  Adj_Close: number,
+  Close: number,
+  High: number,
+  Low: number,
+  Open: number,
+  Spread: number,
+  SpreadPer: string,
+  date: string,
+  stock_id: string,
+  zh_name: string
+}

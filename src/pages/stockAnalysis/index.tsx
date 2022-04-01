@@ -1,5 +1,5 @@
 import { useGetTaiwanStockAnalysisQuery } from "services/findmindV2Service"
-import { AnalysisObj, InstitutionalInvestor } from 'types/apis/twStockAnalysis'
+import { AnalysisObj, InstitutionalInvestor } from 'types/apis/v2Types'
 import Header from "components/layout/Header"
 
 const StockAnalysis: React.FC = () => {
