@@ -9,5 +9,6 @@ export type twStockInfo = {
 
 // 個股分析
 export type stockAnalysisState = {
-  twStockInfoList: twStockInfo[]
+  twStockInfoList: twStockInfo[],
+  searchKeyWord: string
 }
