@@ -45,6 +45,7 @@ const Search: React.FC = () => {
         </div>
         <div className="flex flex-wrap p-5">
           {
+            keyword !== "" &&
             searchStockList.map(item => {
               return (
                 <div className="bg-secondary shadow-md text-fourth m-2 p-3 rounded-lg" key={item.stock_id + item.industry_category}>{item.stock_id} {item.stock_name}</div>
