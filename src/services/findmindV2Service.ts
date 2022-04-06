@@ -7,7 +7,7 @@ export const findmindV2Service = createApi({
 	baseQuery: fetchBaseQuery({ baseUrl: "https://api.web.finmindtrade.com/v2/" }),
 	endpoints: (builder) => ({
 		// 取得個股分析
-		getTaiwanStockAnalysis: builder.query<ApiRes<TwStockAnalysisData>, number>({
+		getTaiwanStockAnalysis: builder.query<ApiRes<TwStockAnalysisData>, string>({
 			query: (id) => {
 				return `taiwan_stock_analysis?stock_id=${id}`;
 			},

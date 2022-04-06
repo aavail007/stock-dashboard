@@ -1,37 +1,25 @@
 import { useGetTaiwanStockAnalysisQuery } from "services/findmindV2Service"
-import { useGetV4DataQuery } from "services/findmindV4Service"
 import { AnalysisObj, InstitutionalInvestor } from "types/apis/v2Types"
-import { TwStockInfo } from "types/apis/v4Types"
-import { setAllStockInfo } from "slices/stockAnalysisSlice"
-import { useAppDispatch } from "hooks/hooks"
-import { useEffect } from "react"
+import { useEffect, useCallback } from "react"
 import Header from "components/layout/Header"
 import Search from "pages/stockAnalysis/components/search"
+import { useAppSelector } from "hooks/hooks"
+
 
 const StockAnalysis: React.FC = () => {
-  const dispatch = useAppDispatch();
+  const stockReducer = useAppSelector((state) => state.stockAnalysisReducer);
+  const stockId = stockReducer.searchStockId;
   // 個股分析
-  const personalStock = useGetTaiwanStockAnalysisQuery(2330);
-  // 取得所有個股基本資訊
-  const allStockInfo = useGetV4DataQuery({ dataset: "TaiwanStockInfo" })
+  const personalStock =  useGetTaiwanStockAnalysisQuery(stockId);
   useEffect(() => { 
-    // 個股分析
     let institutionalInvestorList: InstitutionalInvestor[] = [];
     if (personalStock.data) {
       const institutionalInvestor: AnalysisObj<InstitutionalInvestor> = personalStock.data?.data.InstitutionalInvestor
-      console.log("個股分析: institutionalInvestor = ", institutionalInvestor);
+      console.log("個股分析: institutionalInvestor = " + stockId, institutionalInvestor);
       institutionalInvestorList = institutionalInvestor.InstitutionalInvestor
       console.log(institutionalInvestorList);
     }
-
-    // 取得所有個股基本資訊
-    let allStockInfoList: TwStockInfo[] = []
-    if (allStockInfo.data) {
-      allStockInfoList = allStockInfo.data.data
-      console.log('取得所有個股基本資訊', allStockInfoList);
-      dispatch(setAllStockInfo(allStockInfoList))
-    }
-  }, [])
+  }, [personalStock.data]);
   return (
     <>
       <Header></Header>

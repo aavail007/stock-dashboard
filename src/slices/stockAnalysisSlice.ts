@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { stockAnalysisState } from "types/slices/stockAnalysis"
 import type { TwStockInfo } from "types/apis/v4Types"
-import { Action } from "history";
 
 const initialState: stockAnalysisState = {
   // 所有股票清單
   twStockInfoList: [],
-  // 搜尋的關鍵字
-  searchKeyWord: ""
+  // 搜尋的股票 ID
+  searchStockId: "2330"
 }
 export const stockAnalysisSlice = createSlice({
   name: "stockAnalysisState",
@@ -17,11 +16,10 @@ export const stockAnalysisSlice = createSlice({
     search: (stat, action: PayloadAction<string>) => {
 
     },
-    // 搜尋的關鍵字
-    setSearchKeyWord: (state, action: PayloadAction<string>) => {
-      state.searchKeyWord = action.payload
+    // 儲存本次要撈的股票 ID
+    setStockId: (state, action: PayloadAction<string>) => {
+      state.searchStockId = action.payload;
     },
-
     // 儲存所有個股基本資訊
     setAllStockInfo: (state, action: PayloadAction<TwStockInfo[]>) => {
       const set = new Set();
@@ -33,5 +31,5 @@ export const stockAnalysisSlice = createSlice({
   }
 })
 
-export const { search, setAllStockInfo, setSearchKeyWord } = stockAnalysisSlice.actions;
+export const { search, setAllStockInfo, setStockId } = stockAnalysisSlice.actions;
 export default stockAnalysisSlice.reducer;
