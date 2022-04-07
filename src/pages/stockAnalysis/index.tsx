@@ -4,6 +4,7 @@ import { useEffect, useCallback } from "react"
 import Header from "components/layout/Header"
 import Search from "pages/stockAnalysis/components/search"
 import { useAppSelector } from "hooks/hooks"
+import KChart from "./components/kChart"
 
 
 const StockAnalysis: React.FC = () => {
@@ -25,6 +26,7 @@ const StockAnalysis: React.FC = () => {
       <Header></Header>
       <div className="w-full xl:max-w-[1366px] m-auto">
         <Search></Search>
+        <KChart></KChart>
       </div>
     </>
   )

@@ -9,6 +9,7 @@ export type ApiRes<T> = {
 export type ApiParameter = {
   dataset?: string,
   start_date?: string,
-  data_id?: number,
+  end_date?: string,
+  data_id?: string,
   token?: string
 }

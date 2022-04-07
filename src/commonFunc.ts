@@ -32,3 +32,8 @@ export function tranNumber(num: number): string {
   }
   return '0'
 }
+
+// 日期轉換為 timestamp
+export function dateToTimestamp(date: string): number {
+  return new Date(date).getTime();
+}

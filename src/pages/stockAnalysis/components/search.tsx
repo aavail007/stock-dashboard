@@ -21,7 +21,7 @@ const Search: React.FC = () => {
   const getAllStock = useCallback(() => {
     let allStockInfoList: TwStockInfo[] = []
     if (allStockInfo.data) {
-      allStockInfoList = allStockInfo.data.data
+      allStockInfoList = allStockInfo.data.data;
       console.log('取得所有個股基本資訊', allStockInfoList);
       dispatch(setAllStockInfo(allStockInfoList))
     }

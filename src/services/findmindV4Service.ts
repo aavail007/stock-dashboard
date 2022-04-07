@@ -12,7 +12,9 @@ export const findmindV4Service = createApi({
 					url: `api/v4/data`,
 					params: {
 						dataset: parameter.dataset,
-						start_date: parameter.start_date
+						start_date: parameter.start_date,
+						data_id: parameter.data_id,
+						end_date: parameter.end_date
 					}
 				}
 			},

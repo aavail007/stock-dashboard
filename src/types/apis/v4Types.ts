@@ -31,3 +31,17 @@ export type TwStockInfo = {
   type: string,
   date: string
 }
+
+// 個股股價日成交資訊
+export type TwStockPrice = {
+  date: string,
+  stock_id: string,
+  Trading_Volume: number,
+  Trading_money: number,
+  open: number,
+  max: number,
+  min: number,
+  close: number,
+  spread: number,
+  Trading_turnover: number
+}
