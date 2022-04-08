@@ -1,3 +1,4 @@
+import React from 'react';
 import { useGetTaiwanStockAnalysisQuery } from 'services/findmindV2Service';
 import { AnalysisObj, InstitutionalInvestor } from 'types/apis/v2Types';
 import { useEffect, useCallback } from 'react';

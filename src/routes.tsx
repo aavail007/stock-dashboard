@@ -1,6 +1,6 @@
 import type { RouteObject } from 'react-router-dom';
 import Home from './pages/home';
-import StockAnalysis from './pages/stockAnalysis'
+import StockAnalysis from './pages/stockAnalysis';
 
 const routes: RouteObject[] = [
   {
@@ -13,6 +13,6 @@ const routes: RouteObject[] = [
     element: <StockAnalysis />,
     children: []
   }
-]
+];
 
-export default routes
+export default routes;
