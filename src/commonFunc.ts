@@ -1,12 +1,21 @@
 import translation from 'translation.json'
 
-// 英翻中
+/**
+ * @description 英翻中
+ * @param {string} key
+ * @param {string} text
+ * @return {*}  {string}
+ */
 export function translationWord(key: string, text: string): string {
   const translationObj = JSON.parse(JSON.stringify(translation))
   return translationObj[key][text]
 }
 
-// 取得某天日期(xxxx-xx-xx)，day = 要回推/增加的天數
+/**
+ * @description 取得某天日期(xxxx-xx-xx)，day = 要回推/增加的天數
+ * @param {number} day
+ * @return {*}  {string}
+ */
 export function getDate(day: number): string {
   const today = new Date();
   const targetDate = today.setDate(today.getDate() + day)
@@ -17,7 +26,11 @@ export function getDate(day: number): string {
   return `${year}-${month}-${date}`
 }
 
-// 金額化簡文字單位
+/**
+ * @description 金額化簡文字單位
+ * @param {number} num
+ * @return {*}  {string}
+ */
 export function tranNumber(num: number): string {
   // 將數字轉換為字符串,然後通過split方法用.分隔,取到第0個
   let numStr = num.toString().split('.')[0]
@@ -33,7 +46,11 @@ export function tranNumber(num: number): string {
   return '0'
 }
 
-// 日期轉換為 timestamp
+/**
+ * @description 日期轉換為 timestamp
+ * @param {string} date
+ * @return {*}  {number}
+ */
 export function dateToTimestamp(date: string): number {
   return new Date(date).getTime();
 }
