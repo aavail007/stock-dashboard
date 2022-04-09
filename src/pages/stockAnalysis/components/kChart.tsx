@@ -22,14 +22,13 @@ const KChart: React.FC = () => {
   });
   const getStockPrice = useCallback(async () => {
     if (!stockPrice.isLoading && stockPrice.data) {
-      // eslint-disable-next-line no-debugger
-      // debugger;
       const data = stockPrice.data;
       await setStockPriceData(data.data);
-      await console.log('stockPriceData=== stockId===' + stockId, stockPriceData);
+      await console.log('stockPriceData=== stockId===' + stockId, data.data);
       await sortOutChartData(data.data);
     }
-  }, [stockPrice]);
+  }, [stockPrice.data?.data]);
+
   // 整理 API 回來的資料，供圖表使用
   const sortOutChartData = (data: TwStockPrice[]) => {
     const newData: Array<number[]> = [];
@@ -45,7 +44,7 @@ const KChart: React.FC = () => {
   };
   // 渲染圖表
   const renderChart = (chartData: number[][]) => {
-    console.log('創建圖表' + stockId, kChartData);
+    console.log('創建圖表' + stockId, chartData);
     const Highcharts = require('highcharts/highstock');
     // 在 Highcharts 加載之後加載功能模塊
     require('highcharts/modules/exporting')(Highcharts);
@@ -82,34 +81,20 @@ const KChart: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log('觸發啦~~~~~' + stockId, kChartData);
-
-    const fetchData = async () => {
-      await stockPrice.refetch();
-      console.log('refetch 完' + stockId, stockPrice.data);
-      await getStockPrice();
-      console.log('getStockPrice 完' + stockId, kChartData);
-      // await renderChart();
-      // setTimeout(() => {
-      //   const Highcharts = require('highcharts/highstock');
-      //   // 在 Highcharts 加載之後加載功能模塊
-      //   require('highcharts/modules/exporting')(Highcharts);
-      //   // 創建圖表
-      //   Highcharts.chart('container', options);
-      // }, 1000);
+    const fetchData = () => {
+      stockPrice.refetch();
     };
     fetchData();
   }, [stockId]);
 
   useEffect(() => {
-    console.log('stockId 變了' + stockId);
+    console.log('getStockPrice 變了' + stockId);
     getStockPrice();
   }, [getStockPrice]);
 
   return (
     <>
       <div id="container" className="h-full w-auto"></div>
-      <div> {kChartData[0]}</div>
       {/* // <HighchartsReact ref={chartComponentRef} highcharts={Highcharts} options={options} constructorType={'stockChart'}></HighchartsReact> */}
     </>
   );
