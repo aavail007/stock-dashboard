@@ -4,11 +4,11 @@ import { useAppDispatch, useAppSelector } from 'hooks/hooks';
 import { useGetV4DataQuery } from 'services/findmindV4Service';
 import type { TwStockPrice } from 'types/apis/v4Types';
 import { dateToTimestamp } from 'commonFunc';
-import HighchartsReact from 'highcharts-react-official';
-import Highcharts from 'highcharts/highstock';
+// import HighchartsReact from 'highcharts-react-official';
+// import Highcharts from 'highcharts/highstock';
 
 const KChart: React.FC = () => {
-  const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
+  const dispatch = useAppDispatch();
   const stockReducer = useAppSelector((state) => state.stockAnalysisReducer);
   const stockId = stockReducer.searchStockId;
   const [stockPriceData, setStockPriceData] = useState<TwStockPrice[]>([]);
@@ -20,14 +20,16 @@ const KChart: React.FC = () => {
     start_date: '2022-02-14',
     end_date: '2022-04-07'
   });
-  const getStockPrice = useCallback(() => {
-    if (stockPrice.data) {
+  const getStockPrice = useCallback(async () => {
+    if (!stockPrice.isLoading && stockPrice.data) {
+      // eslint-disable-next-line no-debugger
+      // debugger;
       const data = stockPrice.data;
-      setStockPriceData(data.data);
-      console.log('stockPriceData=== stockId===' + stockId, stockPriceData);
-      sortOutChartData(stockPriceData);
+      await setStockPriceData(data.data);
+      await console.log('stockPriceData=== stockId===' + stockId, stockPriceData);
+      await sortOutChartData(data.data);
     }
-  }, [stockPrice.data]);
+  }, [stockPrice]);
   // 整理 API 回來的資料，供圖表使用
   const sortOutChartData = (data: TwStockPrice[]) => {
     const newData: Array<number[]> = [];
@@ -36,59 +38,78 @@ const KChart: React.FC = () => {
       // 時間戳, 開盤價, 最高價, 最低價, 收盤價
       newData.push([timeStamp, item.open, item.max, item.min, item.close]);
     });
+    console.log('塞值啦!!!!', newData);
+
     setKChartData(newData);
+    renderChart(newData);
+  };
+  // 渲染圖表
+  const renderChart = (chartData: number[][]) => {
+    console.log('創建圖表' + stockId, kChartData);
+    const Highcharts = require('highcharts/highstock');
+    // 在 Highcharts 加載之後加載功能模塊
+    require('highcharts/modules/exporting')(Highcharts);
+    // 圖表配置
+    const options = {
+      rangeSelector: {
+        selected: 1
+      },
+
+      title: {
+        text: stockId + 'K線'
+      },
+
+      series: [
+        {
+          type: 'candlestick',
+          name: stockId + '價錢',
+          data: chartData,
+          dataGrouping: {
+            units: [
+              [
+                'week', // unit name
+                [1] // allowed multiples
+              ],
+              ['month', [1, 2, 3, 4, 6]]
+            ]
+          }
+        }
+      ]
+    };
+
+    // 創建圖表
+    Highcharts.chart('container', options);
   };
 
   useEffect(() => {
-    console.log('創建圖表' + stockId, kChartData);
-    if (kChartData.length > 0) {
-      console.log('有資料' + stockId, kChartData);
+    console.log('觸發啦~~~~~' + stockId, kChartData);
 
-      const Highcharts = require('highcharts/highstock');
-      // 在 Highcharts 加載之後加載功能模塊
-      require('highcharts/modules/exporting')(Highcharts);
-      // 創建圖表
-      Highcharts.chart('container', options);
-    }
-  }, [JSON.stringify(kChartData), stockId]);
+    const fetchData = async () => {
+      await stockPrice.refetch();
+      console.log('refetch 完' + stockId, stockPrice.data);
+      await getStockPrice();
+      console.log('getStockPrice 完' + stockId, kChartData);
+      // await renderChart();
+      // setTimeout(() => {
+      //   const Highcharts = require('highcharts/highstock');
+      //   // 在 Highcharts 加載之後加載功能模塊
+      //   require('highcharts/modules/exporting')(Highcharts);
+      //   // 創建圖表
+      //   Highcharts.chart('container', options);
+      // }, 1000);
+    };
+    fetchData();
+  }, [stockId]);
 
   useEffect(() => {
     console.log('stockId 變了' + stockId);
-
     getStockPrice();
   }, [getStockPrice]);
-
-  // 圖表配置
-  const options = {
-    rangeSelector: {
-      selected: 1
-    },
-
-    title: {
-      text: stockId + 'K線'
-    },
-
-    series: [
-      {
-        type: 'candlestick',
-        name: stockId + '價錢',
-        data: kChartData,
-        dataGrouping: {
-          units: [
-            [
-              'week', // unit name
-              [1] // allowed multiples
-            ],
-            ['month', [1, 2, 3, 4, 6]]
-          ]
-        }
-      }
-    ]
-  };
 
   return (
     <>
       <div id="container" className="h-full w-auto"></div>
+      <div> {kChartData[0]}</div>
       {/* // <HighchartsReact ref={chartComponentRef} highcharts={Highcharts} options={options} constructorType={'stockChart'}></HighchartsReact> */}
     </>
   );
