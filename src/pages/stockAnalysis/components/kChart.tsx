@@ -6,7 +6,10 @@ import type { TwStockPrice } from 'types/apis/v4Types';
 import { dateToTimestamp } from 'commonFunc';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts/highstock';
+import { getDate } from 'commonFunc';
 
+const todayDate = getDate(0);
+const startDate = getDate(-365);
 const KChart: React.FC = () => {
   const dispatch = useAppDispatch();
   const stockReducer = useAppSelector((state) => state.stockAnalysisReducer);
@@ -17,8 +20,8 @@ const KChart: React.FC = () => {
   const stockPrice = useGetV4DataQuery({
     dataset: 'TaiwanStockPrice',
     data_id: stockId,
-    start_date: '2021-10-01',
-    end_date: '2022-04-09'
+    start_date: startDate,
+    end_date: todayDate
   });
   const getStockPrice = useCallback(async () => {
     if (!stockPrice.isLoading && stockPrice.data) {

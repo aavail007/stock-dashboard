@@ -16,10 +16,8 @@ const Card3: React.FC<Card3Props> = ({ name, zh_name, close, spread, high }) => 
           <div className="font-bold text-xl">{zh_name}</div>
           <div className="flex flex-col text-right">
             <p className="text-lg text-right">{Math.trunc(spread)}</p>
-            <p className="text-lg font-bold text-sRed text-right">收盤價 {close}</p>
-            {/* <p className="text-xl font-bold text-sRed">
-              最高價 {high}
-            </p> */}
+            <p className="text-xl font-bold text-fourth text-right mt-4">收盤價 {close}</p>
+            {/* <p className="text-xl font-bold text-fourth">最高價 {high}</p> */}
           </div>
         </div>
       </div>

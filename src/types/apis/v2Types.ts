@@ -1,8 +1,10 @@
+import { TwStockPrice } from 'types/apis/v4Types';
 // 個股分析
 export type TwStockAnalysisData = {
   InstitutionalInvestor: AnalysisObj<InstitutionalInvestor>;
   MarginPurchaseShortSale: AnalysisObj<MarginPurchaseShortSale>;
   Shareholding: AnalysisObj<Shareholding>;
+  StockPrice: StockPrice;
 };
 
 export type AnalysisObj<T> = {
@@ -63,4 +65,12 @@ export type USStockPrice = {
   date: string;
   stock_id: string;
   zh_name: string;
+};
+
+// 股票價錢
+export type StockPrice = {
+  MovingAverage: Object;
+  StockPrice: TwStockPrice;
+  TechIndex: Object;
+  update_date: string;
 };
