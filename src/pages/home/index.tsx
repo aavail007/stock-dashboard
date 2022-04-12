@@ -16,7 +16,7 @@ import { TodayInfo, USStockPrice } from 'types/apis/v2Types';
 import { getDate } from 'commonFunc';
 
 // TODO: API 今天的資料還未整理好時待處理撈前一天的資料
-const todayDate = getDate(0);
+const todayDate = getDate(-1);
 const Home: React.FC = () => {
   // 取得今天整體資訊
   const todayInfo = useGetTodayInfoQuery(null);
@@ -63,12 +63,12 @@ const Home: React.FC = () => {
       <div className="px-5 lg:px-10 py-6">
         <div className="mb-10">
           <h3 className="text-xl text-gray-800 font-bold mb-5">三大法人 - {todayDate}</h3>
-          <div className="flex flex-wrap my-3">
+          <div className="flex flex-wrap flex-row my-3">
             {twTotalInstitutionalInvestorsData.map((item) => {
               const { name, buy, sell } = item;
               return (
                 <div
-                  className="w-1/2 lg:w-6/12 xl:w-1/5 px-2 lg:px-4 lg:first:px-0 lg:last:px-0"
+                  className="w-1/2 lg:w-6/12 xl:w-1/5 px-1 lg:px-4 xl:first:pl-0 xl:last:pr-0"
                   key={item.name}>
                   <Card1
                     translation="TaiwanStockInstitutionalInvestorsBuySell"
@@ -84,11 +84,11 @@ const Home: React.FC = () => {
         <div className="flex flex-wrap w-full">
           <div className="mb-10 w-full xl:w-1/5">
             <h3 className="text-xl text-gray-800 font-bold mb-5">資券變化 - {todayDate}</h3>
-            <div className="flex flex-wrap my-3">
+            <div className="flex flex-wrap my-3 xl:pr-4">
               {twStockTotalMarginPurchaseShortSaleData.map((item) => {
                 const { name, buy, sell } = item;
                 return (
-                  <div className="w-full lg:w-1/2 xl:w-full" key={item.name}>
+                  <div className="w-full lg:w-1/2 xl:w-full lg:px-4 xl:p-0" key={item.name}>
                     <Card2
                       translation="TaiwanStockTotalMarginPurchaseShortSale"
                       name={name}
@@ -106,7 +106,7 @@ const Home: React.FC = () => {
               {uSStockPrice.map((item) => {
                 const { zh_name, Close, High, Spread } = item;
                 return (
-                  <div className="w-full lg:w-1/2 xl:px-4" key={item.stock_id}>
+                  <div className="w-full lg:w-1/2 lg:px-4 xl:p-0 xl:px-4" key={item.stock_id}>
                     <Card3 zh_name={zh_name} close={Close} high={High} spread={Spread}></Card3>
                   </div>
                 );
