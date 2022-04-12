@@ -5,7 +5,7 @@ import { useGetV4DataQuery } from 'services/findmindV4Service';
 import React, { useState, useEffect, useCallback } from 'react';
 import type { twStockInfo } from 'types/slices/stockAnalysis';
 import { TwStockInfo } from 'types/apis/v4Types';
-import { setAllStockInfo, setStockId } from 'slices/stockAnalysisSlice';
+import { setAllStockInfo, setStockInfo } from 'slices/stockAnalysisSlice';
 
 const Search: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -51,14 +51,14 @@ const Search: React.FC = () => {
 
   // 點擊搜尋提示按鈕
   function clickSearchHandler(id: string, name: string): void {
-    setInputWord(id + ' ' + name);
+    setInputWord('');
     setSearchStockList([]);
     // 儲存股票 ID 至 state
-    dispatch(setStockId(id));
+    dispatch(setStockInfo({ id, name }));
   }
   return (
     <>
-      <div className="m-auto w-full lg:w-2/3 my-5">
+      <div className="m-auto w-full lg:w-2/3 my-5 px-2">
         <div className="bg-white px-5 py-2 shadow-xl rounded-full">
           <div className="relative flex items-center">
             <FontAwesomeIcon className="absolute text-main" icon={faMagnifyingGlass} />
@@ -71,7 +71,7 @@ const Search: React.FC = () => {
               }}></input>
           </div>
         </div>
-        <div className="flex flex-wrap p-5">
+        <div className="flex flex-wrap p-3">
           {keyword !== '' &&
             searchStockList.map((item) => {
               return (

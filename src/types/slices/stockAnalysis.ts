@@ -11,4 +11,5 @@ export type twStockInfo = {
 export type stockAnalysisState = {
   twStockInfoList: twStockInfo[];
   searchStockId: string;
+  searchStockName: string;
 };

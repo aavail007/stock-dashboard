@@ -13,6 +13,7 @@ import Card4 from 'pages/home/components/Card4';
 const StockAnalysis: React.FC = () => {
   const stockReducer = useAppSelector((state) => state.stockAnalysisReducer);
   const stockId = stockReducer.searchStockId;
+  const stockName = stockReducer.searchStockName;
   const [investorList, setInvestorList] = useState<InstitutionalInvestor[]>([]);
   const [todayPrice, setTodayPrice] = useState<TwStockPrice | null>(null);
   // 個股分析
@@ -37,9 +38,12 @@ const StockAnalysis: React.FC = () => {
       <Header></Header>
       <div className="w-full xl:max-w-[1366px] m-auto">
         <Search></Search>
-        <div className="flex">
+        <h3 className="text-4xl text-fourth font-bold mb-3 mx-2 lg:mx-0">
+          {stockName} {stockId}
+        </h3>
+        <div className="flex flex-wrap">
           {todayPrice && (
-            <div className="w-1/2 lg:w-6/12 xl:w-1/3 px-2 lg:px-4 lg:first:px-0 lg:last:px-0">
+            <div className="w-full lg:w-6/12 xl:w-1/3 px-2 lg:px-4 lg:first:px-0 lg:last:px-0">
               <Card4
                 stock_id={todayPrice.stock_id}
                 zh_name={'股價'}
@@ -51,7 +55,7 @@ const StockAnalysis: React.FC = () => {
           {investorList.map((item) => {
             return (
               <div
-                className="w-1/2 lg:w-6/12 xl:w-1/3 px-2 lg:px-4 lg:first:px-0 lg:last:px-0"
+                className="w-full lg:w-6/12 xl:w-1/3 px-2 lg:px-4 lg:first:px-0 lg:last:px-0"
                 key={item.name}>
                 <Card2
                   translation="TaiwanStockInstitutionalInvestorsBuySell"

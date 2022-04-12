@@ -137,7 +137,7 @@ const KChart: React.FC = () => {
 
   return (
     <>
-      <div id="container" className="h-full w-auto"></div>
+      <div id="container" className="h-full w-auto my-4"></div>
       {!stockPrice.isLoading && kChartData.length > 0 && (
         <HighchartsReact
           highcharts={Highcharts}
