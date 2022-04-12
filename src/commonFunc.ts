@@ -38,7 +38,6 @@ export function tranNumber(number: number): string {
   let numStr = num.toString().split('.')[0];
   if (numStr.length < 6) {
     // 判斷數字有多長,如果小於6,,表示10萬以內的數字,讓其直接顯示
-    console.log(numStr);
     return number >= 0 ? numStr : '-' + numStr;
   } else if (numStr.length >= 6 && numStr.length <= 8) {
     // 如果數字大於6位,小於8位,讓其數字後面加單位萬

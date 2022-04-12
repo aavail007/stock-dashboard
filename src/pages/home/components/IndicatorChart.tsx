@@ -16,8 +16,16 @@ import { useGetV4DataQuery } from 'services/findmindV4Service';
 import { getDate } from 'commonFunc';
 import { TwVariousIndicators } from 'types/apis/v4Types';
 
-// TODO: API 今天的資料還未整理好時待處理撈前一天的資料
-const todayDate = getDate(-1);
+// 判斷現在時間過了 15:00? 過了就請求今天的資料，否則請求前一天的資料
+const checkCloseTime = (): string => {
+  const today = new Date();
+  const hour: number = today.getHours();
+  if (hour >= 15) {
+    return getDate(0);
+  }
+  return getDate(-1);
+};
+const searchDate = checkCloseTime();
 
 ChartJS.register(
   CategoryScale,
@@ -52,7 +60,7 @@ export const options = {
 const IndicatorChart: React.FC = () => {
   const variousIndicators = useGetV4DataQuery({
     dataset: 'TaiwanVariousIndicators5Seconds',
-    start_date: todayDate
+    start_date: searchDate
   });
   let variousIndicatorsData: TwVariousIndicators[] = [];
   let chartDataArray: Array<number> = [];
@@ -86,7 +94,7 @@ const IndicatorChart: React.FC = () => {
   return (
     <>
       <h3 className="flex flex-col lg:flex-row justify-between text-xl text-gray-800 font-bold mb-5">
-        <div>台灣加權指數 - {todayDate}</div>
+        <div>台灣加權指數 - {searchDate}</div>
         <div>
           指數: <span className="text-sRed">{chartDataArray[chartDataArray.length - 1]}</span>
         </div>

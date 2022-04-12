@@ -15,8 +15,8 @@ import {
 import { TodayInfo, USStockPrice } from 'types/apis/v2Types';
 import { getDate } from 'commonFunc';
 
-// TODO: API 今天的資料還未整理好時待處理撈前一天的資料
-const todayDate = getDate(-1);
+// TODO: API 搜尋的日期(當天可能還未有資料)
+const searchDate = getDate(-1);
 const Home: React.FC = () => {
   // 取得今天整體資訊
   const todayInfo = useGetTodayInfoQuery(null);
@@ -31,7 +31,7 @@ const Home: React.FC = () => {
   // 台灣市場整體法人買賣表
   const twTotalInstitutionalInvestors = useGetV4DataQuery({
     dataset: 'TaiwanStockTotalInstitutionalInvestors',
-    start_date: todayDate
+    start_date: searchDate
   });
   let twTotalInstitutionalInvestorsData: TwStkTotalInstitutionalInvestors[] = [];
   if (twTotalInstitutionalInvestors.data) {
@@ -40,16 +40,17 @@ const Home: React.FC = () => {
       '台灣市場整體法人買賣表: twTotalInstitutionalInvestorsData = ',
       twTotalInstitutionalInvestorsData
     );
-    // 過濾掉 total
-    twTotalInstitutionalInvestorsData = twTotalInstitutionalInvestorsData.filter(
-      (item) => item.name !== 'total'
-    );
+    // 過濾掉 total、只拿取最近一天的資料
+    twTotalInstitutionalInvestorsData = twTotalInstitutionalInvestorsData
+      .filter((item) => item.name !== 'total')
+      .reverse()
+      .slice(0, 5);
   }
 
   // 台灣市場整體融資融劵表
   const twStockTotalMarginPurchaseShortSale = useGetV4DataQuery({
     dataset: 'TaiwanStockTotalMarginPurchaseShortSale',
-    start_date: todayDate
+    start_date: searchDate
   });
   let twStockTotalMarginPurchaseShortSaleData: TwStkTotalMarginPurchaseShortSale[] = [];
   if (twStockTotalMarginPurchaseShortSale.data) {
@@ -62,7 +63,11 @@ const Home: React.FC = () => {
       <Header></Header>
       <div className="px-5 lg:px-10 py-6">
         <div className="mb-10">
-          <h3 className="text-xl text-gray-800 font-bold mb-5">三大法人 - {todayDate}</h3>
+          {twTotalInstitutionalInvestorsData.length > 0 && (
+            <h3 className="text-xl text-gray-800 font-bold mb-5">
+              三大法人 - {twTotalInstitutionalInvestorsData[0].date}
+            </h3>
+          )}
           <div className="flex flex-wrap flex-row my-3">
             {twTotalInstitutionalInvestorsData.map((item) => {
               const { name, buy, sell } = item;
@@ -83,7 +88,11 @@ const Home: React.FC = () => {
 
         <div className="flex flex-wrap w-full">
           <div className="mb-10 w-full xl:w-1/5">
-            <h3 className="text-xl text-gray-800 font-bold mb-5">資券變化 - {todayDate}</h3>
+            {twStockTotalMarginPurchaseShortSaleData.length > 0 && (
+              <h3 className="text-xl text-gray-800 font-bold mb-5">
+                資券變化 - {twStockTotalMarginPurchaseShortSaleData[0].date}
+              </h3>
+            )}
             <div className="flex flex-wrap my-3 xl:pr-4">
               {twStockTotalMarginPurchaseShortSaleData.map((item) => {
                 const { name, buy, sell } = item;
@@ -101,7 +110,11 @@ const Home: React.FC = () => {
           </div>
 
           <div className="mb-10 w-full xl:w-2/5">
-            <h3 className="text-xl text-gray-800 font-bold mb-5 xl:px-4">美股指數 - {todayDate}</h3>
+            {uSStockPrice.length > 0 && (
+              <h3 className="text-xl text-gray-800 font-bold mb-5 xl:px-4">
+                美股指數 - {uSStockPrice[0].date}
+              </h3>
+            )}
             <div className="flex flex-wrap my-3">
               {uSStockPrice.map((item) => {
                 const { zh_name, Close, High, Spread } = item;

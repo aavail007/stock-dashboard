@@ -10,11 +10,11 @@ const Header: React.FC = () => {
     return name === routePath ? true : false;
   };
   return (
-    <header className="sticky top-0 w-full bg-main text-white py-5 px-5 lg:px-10 z-10">
+    <header className="sticky top-0 w-full bg-main text-gray-300 py-5 px-5 lg:px-10 z-10">
       <div className="flex items-center justify-between">
         <div className="flex">
           <span
-            className={`cursor-pointer ${checkLocation('/') ? 'text-third' : ''}`}
+            className={`cursor-pointer ${checkLocation('/') ? 'text-white' : ''}`}
             onClick={() => {
               goPage('/');
             }}>
@@ -22,7 +22,7 @@ const Header: React.FC = () => {
           </span>
           <ul className="mx-10">
             <li
-              className={`cursor-pointer ${checkLocation('/stock-analysis') ? 'text-third' : ''}`}
+              className={`cursor-pointer ${checkLocation('/stock-analysis') ? 'text-white' : ''}`}
               onClick={() => {
                 goPage('/stock-analysis');
               }}>

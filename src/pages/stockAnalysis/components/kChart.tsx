@@ -14,6 +14,7 @@ const KChart: React.FC = () => {
   const dispatch = useAppDispatch();
   const stockReducer = useAppSelector((state) => state.stockAnalysisReducer);
   const stockId = stockReducer.searchStockId;
+  const stockName = stockReducer.searchStockName;
   const [stockPriceData, setStockPriceData] = useState<TwStockPrice[]>([]);
   const [kChartData, setKChartData] = useState<Array<number[]>>([]);
   // 股價日成交資訊
@@ -56,7 +57,7 @@ const KChart: React.FC = () => {
   // 圖表配置
   const options = {
     title: {
-      text: stockId + 'K線'
+      text: stockName + ' K線'
     },
     // 範圍選擇器按鈕
     rangeSelector: {
