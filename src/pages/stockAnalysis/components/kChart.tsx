@@ -7,6 +7,7 @@ import { dateToTimestamp } from 'commonFunc';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts/highstock';
 import { getDate } from 'commonFunc';
+import Loading from 'components/utils/Loading';
 
 const todayDate = getDate(0);
 const startDate = getDate(-365);
@@ -137,13 +138,19 @@ const KChart: React.FC = () => {
 
   return (
     <>
-      <div id="container" className="h-full w-auto my-4"></div>
-      {!stockPrice.isLoading && kChartData.length > 0 && (
-        <HighchartsReact
-          highcharts={Highcharts}
-          options={options}
-          constructorType={'stockChart'}></HighchartsReact>
-      )}
+      <div className="rounded-xl bg-white shadow-xl p-5">
+        {stockPrice.isLoading && (
+          <div className="flex items-center justify-center h-80 p-5">
+            <Loading></Loading>
+          </div>
+        )}
+        {!stockPrice.isLoading && kChartData.length > 0 && (
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={options}
+            constructorType={'stockChart'}></HighchartsReact>
+        )}
+      </div>
     </>
   );
 };
