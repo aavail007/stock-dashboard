@@ -5,6 +5,12 @@ import type { RowsType, ColumnsType } from 'types/utils/tableType';
 import { useAppSelector } from 'hooks/hooks';
 import { TwStockDividend } from 'types/apis/v2Types';
 
+// 切換 tab
+const tabData = [
+  { id: 'cash', name: '現金股利' },
+  { id: 'stock', name: '股票股利' }
+];
+
 const Dividend: React.FC = () => {
   const stockReducer = useAppSelector((state) => state.stockAnalysisReducer);
   const taiwanStockDividend = stockReducer.searchStockInfo?.TaiwanStockDividend;
@@ -25,7 +31,6 @@ const Dividend: React.FC = () => {
     const stockDividend = dividendData.StockDividend;
     let newCash: RowsType[] = [];
     let newStock: RowsType[] = [];
-    console.log('cashDividend==', cashDividend);
     cashDividend.forEach((cach, idx) => {
       const obj = {
         id: idx.toString(),
@@ -65,107 +70,59 @@ const Dividend: React.FC = () => {
       { key: 'StockDividend', value: '元' }
     ]);
   };
-
-  // const cashDividendRows: RowsType[] = [
-  //   {
-  //     id: 1,
-  //     data: [
-  //       { key: 'year', value: '2022' },
-  //       { key: 'tradingDay', value: '2022/01/01' },
-  //       { key: 'releaseDate', value: '2022/02/01' },
-  //       { key: 'dollar', value: '2.5' }
-  //     ]
-  //   },
-  //   {
-  //     id: 2,
-  //     data: [
-  //       { key: 'year', value: '2022' },
-  //       { key: 'tradingDay', value: '2022/06/01' },
-  //       { key: 'releaseDate', value: '2022/07/01' },
-  //       { key: 'dollar', value: '2.5' }
-  //     ]
-  //   }
-  // ];
-  // const cashDividendColumns: ColumnsType[] = [
-  //   { key: 'year', value: '年度' },
-  //   { key: 'tradingDay', value: '交易日' },
-  //   { key: 'releaseDate', value: '發放日' },
-  //   { key: 'dollar', value: '元' }
-  // ];
   return (
     <>
-      <ul
-        className="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4"
-        id="tabs-tab"
-        role="tablist">
-        <li className="nav-item" role="presentation">
-          <a
-            href="#tabs-home"
-            className="
-      nav-link
-      block
-      font-medium
-      text-xs
-      leading-tight
-      uppercase
-      border-x-0 border-t-0 border-b-2 border-transparent
-      px-6
-      py-3
-      my-2
-      hover:border-transparent hover:bg-gray-100
-      focus:border-transparent
-      active
-    "
-            id="tabs-home-tab"
-            data-bs-toggle="pill"
-            data-bs-target="#tabs-home"
-            role="tab"
-            aria-controls="tabs-home"
-            aria-selected="true">
-            現金股利
-          </a>
-        </li>
-        <li className="nav-item" role="presentation">
-          <a
-            href="#tabs-stock"
-            className="
-      nav-link
-      block
-      font-medium
-      text-xs
-      leading-tight
-      uppercase
-      border-x-0 border-t-0 border-b-2 border-transparent
-      px-6
-      py-3
-      my-2
-      hover:border-transparent hover:bg-gray-100
-      focus:border-transparent
-    "
-            id="tabs-stock-tab"
-            data-bs-toggle="pill"
-            data-bs-target="#tabs-stock"
-            role="tab"
-            aria-controls="tabs-stock"
-            aria-selected="false">
-            股票股利
-          </a>
-        </li>
-      </ul>
-      <div className="tab-content p-2 lg:p-0" id="tabs-tabContent">
-        <div
-          className="tab-pane fade show active"
-          id="tabs-home"
-          role="tabpanel"
-          aria-labelledby="tabs-home-tab">
-          <Table rows={cashDividendRows} columns={cashDividendColumns} height="500px"></Table>
-        </div>
-        <div
-          className="tab-pane fade"
-          id="tabs-stock"
-          role="tabpanel"
-          aria-labelledby="tabs-stock-tab">
-          <Table rows={stockDividendRows} columns={stockDividendColumns} height="500px"></Table>
+      <div className="my-4">
+        <ul
+          className="nav nav-tabs flex md:flex-row flex-wrap list-none border-b-0 pl-0 lg:mb-4"
+          id="tabs-tab"
+          role="tablist">
+          {tabData.map((tab, idx) => {
+            return (
+              <li className="nav-item" role="presentation" key={tab.id}>
+                <a
+                  href={`#tabs-${tab.id}`}
+                  className={`nav-link
+                  block
+                  font-medium
+                  text-md
+                  leading-tight
+                  uppercase
+                  border-x-0 border-t-0 border-b-2 border-transparent
+                  px-6
+                  py-3
+                  my-2
+                  duration-200
+                hover:text-main
+                  focus:border-transparent
+                   ${idx === 0 ? 'active' : ''}`}
+                  id={`tabs-${tab.id}-tab`}
+                  data-bs-toggle="pill"
+                  data-bs-target={`#tabs-${tab.id}`}
+                  role="tab"
+                  aria-controls={`tabs-${tab.id}`}
+                  aria-selected="true">
+                  {tab.name}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="tab-content p-2 lg:p-0" id="tabs-tabContent">
+          <div
+            className="tab-pane fade show active"
+            id="tabs-cash"
+            role="tabpanel"
+            aria-labelledby="tabs-cash-tab">
+            <Table rows={cashDividendRows} columns={cashDividendColumns} height="500px"></Table>
+          </div>
+          <div
+            className="tab-pane fade"
+            id="tabs-stock"
+            role="tabpanel"
+            aria-labelledby="tabs-stock-tab">
+            <Table rows={stockDividendRows} columns={stockDividendColumns} height="500px"></Table>
+          </div>
         </div>
       </div>
     </>
