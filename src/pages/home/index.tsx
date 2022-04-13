@@ -55,6 +55,11 @@ const Home: React.FC = () => {
   let twStockTotalMarginPurchaseShortSaleData: TwStkTotalMarginPurchaseShortSale[] = [];
   if (twStockTotalMarginPurchaseShortSale.data) {
     twStockTotalMarginPurchaseShortSaleData = twStockTotalMarginPurchaseShortSale.data?.data;
+    // 只拿取最近一天的資料， filter 暫解防跳 "Cannot assign to read only property '0' of object '[object Array]'" 錯誤
+    twStockTotalMarginPurchaseShortSaleData = twStockTotalMarginPurchaseShortSaleData
+      .filter((item) => true)
+      .reverse()
+      .slice(0, 3);
     console.log('資券', twStockTotalMarginPurchaseShortSaleData);
   }
 
