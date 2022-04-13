@@ -1,13 +1,14 @@
 import { TwStockPrice } from 'types/apis/v4Types';
 // 個股分析
 export type TwStockAnalysisData = {
-  InstitutionalInvestor: AnalysisObj<InstitutionalInvestor>;
-  MarginPurchaseShortSale: AnalysisObj<MarginPurchaseShortSale>;
-  Shareholding: AnalysisObj<Shareholding>;
+  InstitutionalInvestor: AnalysisArray<InstitutionalInvestor>;
+  MarginPurchaseShortSale: AnalysisArray<MarginPurchaseShortSale>;
+  Shareholding: AnalysisArray<Shareholding>;
   StockPrice: StockPrice;
+  TaiwanStockDividend: TwStockDividend;
 };
 
-export type AnalysisObj<T> = {
+export type AnalysisArray<T> = {
   [key: string]: T[];
 } & {
   update_date: string;
@@ -73,4 +74,26 @@ export type StockPrice = {
   StockPrice: TwStockPrice;
   TechIndex: Object;
   update_date: string;
+};
+
+// 股利(現金/股票紅利)
+export type TwStockDividend = {
+  CashDividend: CashDividend[];
+  StockDividend: StockDividend[];
+  update_date: string;
+};
+
+// 現金股利
+export type CashDividend = {
+  CashDividend: number;
+  CashDividendDealDate: string;
+  CashDividendReleaseDate: string;
+  year: number;
+};
+
+// 股票紅利
+export type StockDividend = {
+  StockDividend: number;
+  StockDividendDealDate: string;
+  year: number;
 };

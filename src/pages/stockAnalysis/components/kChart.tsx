@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { useAppDispatch, useAppSelector } from 'hooks/hooks';
+import { useAppSelector } from 'hooks/hooks';
 import { useGetV4DataQuery } from 'services/findmindV4Service';
 import type { TwStockPrice } from 'types/apis/v4Types';
 import { dateToTimestamp } from 'commonFunc';
@@ -11,7 +11,6 @@ import { getDate } from 'commonFunc';
 const todayDate = getDate(0);
 const startDate = getDate(-365);
 const KChart: React.FC = () => {
-  const dispatch = useAppDispatch();
   const stockReducer = useAppSelector((state) => state.stockAnalysisReducer);
   const stockId = stockReducer.searchStockId;
   const stockName = stockReducer.searchStockName;

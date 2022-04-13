@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { stockAnalysisState } from 'types/slices/stockAnalysis';
 import type { TwStockInfo } from 'types/apis/v4Types';
+import { TwStockAnalysisData } from 'types/apis/v2Types';
 
 const initialState: stockAnalysisState = {
   // 所有股票清單
@@ -8,7 +9,9 @@ const initialState: stockAnalysisState = {
   // 搜尋的股票 ID
   searchStockId: '2330',
   // 搜尋的股票名稱
-  searchStockName: '台積電'
+  searchStockName: '台積電',
+  // 搜尋的股票個股資訊
+  searchStockInfo: null
 };
 export const stockAnalysisSlice = createSlice({
   name: 'stockAnalysisState',
@@ -30,9 +33,14 @@ export const stockAnalysisSlice = createSlice({
       );
       state.twStockInfoList = result;
       console.log('state.twStockInfoList ==== ', state.twStockInfoList);
+    },
+    // 儲存搜尋出的個股資訊
+    setSearchStockInfo: (state, action: PayloadAction<TwStockAnalysisData>) => {
+      state.searchStockInfo = action.payload;
     }
   }
 });
 
-export const { search, setAllStockInfo, setStockInfo } = stockAnalysisSlice.actions;
+export const { search, setAllStockInfo, setStockInfo, setSearchStockInfo } =
+  stockAnalysisSlice.actions;
 export default stockAnalysisSlice.reducer;

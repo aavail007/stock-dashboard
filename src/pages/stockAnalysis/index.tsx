@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
 import { useGetTaiwanStockAnalysisQuery } from 'services/findmindV2Service';
-import { AnalysisObj, InstitutionalInvestor } from 'types/apis/v2Types';
+import { AnalysisArray, InstitutionalInvestor } from 'types/apis/v2Types';
 import { TwStockPrice } from 'types/apis/v4Types';
 import { useEffect, useCallback } from 'react';
 import Header from 'components/layout/Header';
-import Search from 'pages/stockAnalysis/components/search';
-import { useAppSelector } from 'hooks/hooks';
-import KChart from './components/kChart';
+import Search from 'pages/stockAnalysis/components/Search';
+import { useAppSelector, useAppDispatch } from 'hooks/hooks';
+import KChart from './components/KChart';
 import Card2 from 'pages/home/components/Card2';
 import Card4 from 'pages/home/components/Card4';
+import Dividend from 'pages/stockAnalysis/components/Dividend';
+import { setSearchStockInfo } from 'slices/stockAnalysisSlice';
 
 const StockAnalysis: React.FC = () => {
+  const dispatch = useAppDispatch();
   const stockReducer = useAppSelector((state) => state.stockAnalysisReducer);
   const stockId = stockReducer.searchStockId;
   const stockName = stockReducer.searchStockName;
+  // 外資投資狀況
   const [investorList, setInvestorList] = useState<InstitutionalInvestor[]>([]);
+  // 今天個股開收盤價錢
   const [todayPrice, setTodayPrice] = useState<TwStockPrice | null>(null);
   // 個股分析
   const personalStock = useGetTaiwanStockAnalysisQuery(stockId);
@@ -22,7 +27,8 @@ const StockAnalysis: React.FC = () => {
     let institutionalInvestorList: InstitutionalInvestor[] = [];
     let stockPrice: TwStockPrice;
     if (personalStock.data) {
-      const institutionalInvestor: AnalysisObj<InstitutionalInvestor> =
+      dispatch(setSearchStockInfo(personalStock.data.data));
+      const institutionalInvestor: AnalysisArray<InstitutionalInvestor> =
         personalStock.data?.data.InstitutionalInvestor;
       institutionalInvestorList = institutionalInvestor.InstitutionalInvestor.filter(
         (item) => item.name === 'Foreign_Investor' || item.name === 'Investment_Trust'
@@ -39,7 +45,7 @@ const StockAnalysis: React.FC = () => {
       <div className="w-full xl:max-w-[1366px] m-auto">
         <Search></Search>
         <h3 className="text-4xl text-fourth font-bold mb-3 mx-2 lg:mx-0">
-          {stockName} {stockId}
+          {stockId} {stockName}
         </h3>
         <div className="flex flex-wrap">
           {todayPrice && (
@@ -67,6 +73,9 @@ const StockAnalysis: React.FC = () => {
           })}
         </div>
         <KChart></KChart>
+        <div className="w-full lg:w-1/2">
+          <Dividend></Dividend>
+        </div>
       </div>
     </>
   );
