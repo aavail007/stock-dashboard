@@ -72,7 +72,7 @@ const Dividend: React.FC = () => {
   };
   return (
     <>
-      <div className="my-4">
+      <div className="my-2 lg:my-4 p-2 lg:p-0">
         <ul
           className="nav nav-tabs flex md:flex-row flex-wrap list-none border-b-0 pl-0 lg:mb-4"
           id="tabs-tab"
@@ -108,7 +108,7 @@ const Dividend: React.FC = () => {
             );
           })}
         </ul>
-        <div className="tab-content p-2 lg:p-0" id="tabs-tabContent">
+        <div className="tab-content " id="tabs-tabContent">
           <div
             className="tab-pane fade show active"
             id="tabs-cash"

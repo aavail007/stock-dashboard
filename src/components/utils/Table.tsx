@@ -14,7 +14,7 @@ const Table: React.FC<PropsType> = ({ rows, columns, height }) => {
         <div className="overflow-auto">
           <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
             <table className="min-w-full">
-              <thead className="border-b">
+              <thead className="border-b-2">
                 <tr>
                   {columns.map((item) => {
                     return (
@@ -35,9 +35,19 @@ const Table: React.FC<PropsType> = ({ rows, columns, height }) => {
                       {item.data.map((tdItem) => {
                         return (
                           <td
-                            className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                            className="px-6 py-4 text-sm font-medium text-gray-900"
                             key={tdItem.key}>
-                            {tdItem.value}
+                            {tdItem.link && (
+                              <a
+                                href={tdItem.link}
+                                className="text-sGreen hover:underline underline-offset-1"
+                                target="_blank"
+                                rel="noreferrer">
+                                {tdItem.value}
+                              </a>
+                            )}
+
+                            {!tdItem.link && <span>{tdItem.value}</span>}
                           </td>
                         );
                       })}

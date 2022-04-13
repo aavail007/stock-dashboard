@@ -15,6 +15,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+// 單行超出顯示 ...
+.overflow-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 // 覆蓋套件的樣式------------------
 // tab 切換 UI
 .nav-tabs .nav-link.active {

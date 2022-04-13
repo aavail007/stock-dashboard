@@ -1,3 +1,4 @@
+import { type } from 'os';
 import { TwStockPrice } from 'types/apis/v4Types';
 // 個股分析
 export type TwStockAnalysisData = {
@@ -6,6 +7,7 @@ export type TwStockAnalysisData = {
   Shareholding: AnalysisArray<Shareholding>;
   StockPrice: StockPrice;
   TaiwanStockDividend: TwStockDividend;
+  TaiwanNews: AnalysisArray<TwNews>;
 };
 
 export type AnalysisArray<T> = {
@@ -96,4 +98,11 @@ export type StockDividend = {
   StockDividend: number;
   StockDividendDealDate: string;
   year: number;
+};
+
+// 股票新聞
+export type TwNews = {
+  date: string;
+  link: string;
+  title: string;
 };

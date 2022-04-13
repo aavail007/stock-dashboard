@@ -10,6 +10,7 @@ import KChart from './components/KChart';
 import Card2 from 'pages/home/components/Card2';
 import Card4 from 'pages/home/components/Card4';
 import Dividend from 'pages/stockAnalysis/components/Dividend';
+import News from 'pages/stockAnalysis/components/News';
 import { setSearchStockInfo } from 'slices/stockAnalysisSlice';
 
 const StockAnalysis: React.FC = () => {
@@ -73,8 +74,13 @@ const StockAnalysis: React.FC = () => {
           })}
         </div>
         <KChart></KChart>
-        <div className="w-full lg:w-1/2">
-          <Dividend></Dividend>
+        <div className="flex flex-wrap">
+          <div className="w-full lg:w-1/2 lg:pr-3">
+            <Dividend></Dividend>
+          </div>
+          <div className="w-full lg:w-1/2 lg:pl-3">
+            <News></News>
+          </div>
         </div>
       </div>
     </>
