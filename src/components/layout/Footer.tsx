@@ -4,7 +4,7 @@ const Footer: React.FC = () => {
   const year = new Date().getFullYear();
   return (
     <>
-      <footer className="bg-main h-16 w-full text-white flex justify-between items-center p-5 shadow-xl mt-10">
+      <footer className="bg-sGray h-20 w-full text-main flex justify-between items-center px-5 lg:px-10 shadow-xl mt-10">
         <div>Data from FinMind</div>
         <div>© {year} limeng.</div>
       </footer>

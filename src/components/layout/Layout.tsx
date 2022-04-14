@@ -5,7 +5,7 @@ import Footer from 'components/layout/Footer';
 const Layout: React.FC = ({ children }) => {
   return (
     <>
-      <div className="flex flex-col h-full justify-between">
+      <div className="flex flex-col h-full min-h-screen justify-between">
         <Header></Header>
         <main>{children}</main>
         <Footer></Footer>
