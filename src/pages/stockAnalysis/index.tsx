@@ -11,6 +11,7 @@ import Card2 from 'pages/home/components/Card2';
 import Card4 from 'pages/home/components/Card4';
 import Dividend from 'pages/stockAnalysis/components/Dividend';
 import News from 'pages/stockAnalysis/components/News';
+import EpsMonthRevenue from 'pages/stockAnalysis/components/EpsMonthRevenue';
 import { setSearchStockInfo } from 'slices/stockAnalysisSlice';
 
 const StockAnalysis: React.FC = () => {
@@ -74,6 +75,7 @@ const StockAnalysis: React.FC = () => {
           })}
         </div>
         <KChart></KChart>
+        <EpsMonthRevenue></EpsMonthRevenue>
         <div className="flex flex-wrap">
           <div className="w-full lg:w-1/2 lg:pr-3">
             <Dividend></Dividend>

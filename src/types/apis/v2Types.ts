@@ -1,6 +1,7 @@
 import { type } from 'os';
+import { Obj } from 'reselect/es/types';
 import { TwStockPrice } from 'types/apis/v4Types';
-// 個股分析
+// 個股分析 API
 export type TwStockAnalysisData = {
   InstitutionalInvestor: AnalysisArray<InstitutionalInvestor>;
   MarginPurchaseShortSale: AnalysisArray<MarginPurchaseShortSale>;
@@ -105,4 +106,34 @@ export type TwNews = {
   date: string;
   link: string;
   title: string;
+};
+
+// EPS、月營收 API
+export type TwAnalysisPlotApi = {
+  EPS: EpsType;
+  TaiwanMonthRevenue: TaiwanMonthRevenue;
+};
+
+// EPS
+export type EpsType = {
+  title: string;
+  QoQ: number;
+  YoY: number;
+  data: EpsRevenueDataType;
+  update_date: string;
+};
+
+// 月營收 Data
+export type TaiwanMonthRevenue = {
+  title: string;
+  MoM: number;
+  YoY: Number;
+  data: EpsRevenueDataType;
+  update_date: string;
+};
+
+// EPS & MonthRevenue data
+export type EpsRevenueDataType = {
+  labels: string[];
+  series: Array<number[]>;
 };

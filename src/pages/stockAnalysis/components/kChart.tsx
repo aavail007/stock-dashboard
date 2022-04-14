@@ -138,7 +138,7 @@ const KChart: React.FC = () => {
 
   return (
     <>
-      <div className="rounded-xl bg-white shadow-xl p-5">
+      <div className="rounded-xl bg-white shadow-xl p-5 mx-2 xl:mx-0">
         {stockPrice.isLoading && (
           <div className="flex items-center justify-center h-80 p-5">
             <Loading></Loading>

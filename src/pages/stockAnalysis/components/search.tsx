@@ -79,7 +79,7 @@ const Search: React.FC = () => {
                   onClick={() => {
                     clickSearchHandler(item.stock_id, item.stock_name);
                   }}
-                  className="bg-secondary shadow-md text-fourth m-2 p-3 rounded-full cursor-pointer ease-in duration-100 hover:bg-main hover:text-white"
+                  className="bg-sGreen shadow-md text-white m-2 p-3 rounded-full cursor-pointer ease-in duration-100 hover:bg-main hover:text-white"
                   key={item.stock_id + item.industry_category}>
                   {item.stock_id} {item.stock_name}
                 </div>

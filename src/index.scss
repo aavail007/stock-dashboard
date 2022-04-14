@@ -15,6 +15,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+// 隱藏圖表套件名稱
+.highcharts-credits {
+  display: none;
+}
+
 // 單行超出顯示 ...
 .overflow-ellipsis {
   overflow: hidden;

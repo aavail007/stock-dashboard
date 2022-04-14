@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRes } from 'types/utils/apiFormat';
-import { TwStockAnalysisData, TodayInfo } from 'types/apis/v2Types';
+import { TwStockAnalysisData, TodayInfo, TwAnalysisPlotApi } from 'types/apis/v2Types';
 
 export const findmindV2Service = createApi({
   reducerPath: 'findmindV2Service',
@@ -17,8 +17,15 @@ export const findmindV2Service = createApi({
       query: () => {
         return `today_info`;
       }
+    }),
+    // 取得個股 EPS、月營收
+    getEpsMonthRevenue: builder.query<ApiRes<TwAnalysisPlotApi>, string>({
+      query: (id) => {
+        return `taiwan_stock_analysis_plot?stock_id=${id}`;
+      }
     })
   })
 });
 
-export const { useGetTaiwanStockAnalysisQuery, useGetTodayInfoQuery } = findmindV2Service;
+export const { useGetTaiwanStockAnalysisQuery, useGetTodayInfoQuery, useGetEpsMonthRevenueQuery } =
+  findmindV2Service;

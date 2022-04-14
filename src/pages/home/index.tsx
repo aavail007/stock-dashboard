@@ -66,7 +66,7 @@ const Home: React.FC = () => {
   return (
     <>
       <Header></Header>
-      <div className="px-5 lg:px-10 py-6">
+      <div className="px-2 lg:px-xl py-6">
         <div className="mb-10">
           {twTotalInstitutionalInvestorsData.length > 0 && (
             <h3 className="text-xl text-gray-800 font-bold mb-5">
