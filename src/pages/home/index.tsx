@@ -1,8 +1,6 @@
 import React from 'react';
 import { useGetV4DataQuery } from 'services/findmindV4Service';
 import { useGetTodayInfoQuery } from 'services/findmindV2Service';
-
-import Header from 'components/layout/Header';
 import Card1 from 'pages/home/components/Card1';
 import Card2 from 'pages/home/components/Card2';
 import Card3 from 'pages/home/components/Card3';
@@ -65,8 +63,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <Header></Header>
-      <div className="px-2 lg:px-xl py-6">
+      <div className="px-2 lg:px-10 py-6">
         <div className="mb-10">
           {twTotalInstitutionalInvestorsData.length > 0 && (
             <h3 className="text-xl text-gray-800 font-bold mb-5">

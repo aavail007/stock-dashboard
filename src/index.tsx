@@ -6,12 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
+import Layout from 'components/layout/Layout';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <HashRouter>
-        <App />
+        <Layout>
+          <App />
+        </Layout>
       </HashRouter>
     </Provider>
   </React.StrictMode>,

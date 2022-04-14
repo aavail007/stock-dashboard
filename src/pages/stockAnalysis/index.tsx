@@ -3,9 +3,8 @@ import { useGetTaiwanStockAnalysisQuery } from 'services/findmindV2Service';
 import { AnalysisArray, InstitutionalInvestor } from 'types/apis/v2Types';
 import { TwStockPrice } from 'types/apis/v4Types';
 import { useEffect, useCallback } from 'react';
-import Header from 'components/layout/Header';
-import Search from 'pages/stockAnalysis/components/Search';
 import { useAppSelector, useAppDispatch } from 'hooks/hooks';
+import Search from 'pages/stockAnalysis/components/Search';
 import KChart from './components/KChart';
 import Card2 from 'pages/home/components/Card2';
 import Card4 from 'pages/home/components/Card4';
@@ -43,7 +42,6 @@ const StockAnalysis: React.FC = () => {
   }, [personalStock.data]);
   return (
     <>
-      <Header></Header>
       <div className="w-full xl:max-w-[1366px] m-auto">
         <Search></Search>
         <h3 className="text-4xl text-fourth font-bold mb-3 mx-2 lg:mx-0">

@@ -65,7 +65,7 @@ const Search: React.FC = () => {
             <input
               className="w-full ml-4 px-4 py-2 focus:outline-0"
               value={inputWord}
-              placeholder="請輸入股票代碼"
+              placeholder="請輸入股票名稱"
               onChange={(e) => {
                 saveKeyWord(e);
               }}></input>
