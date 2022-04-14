@@ -32,16 +32,29 @@ const LineChart: React.FC<PropsType> = ({ title, data }) => {
         color: '#ff6384',
         data: data.series[0]
       }
-    ]
+    ],
+    responsive: {
+      rules: [
+        {
+          // 在图表小于 500px 的情况下关闭图例
+          condition: {
+            // 响应条件
+            maxHeight: 100
+          }
+        }
+      ]
+    }
   };
   return (
     <>
       {data.series.length > 0 && (
         <div>
           <h3 className="text-center text-xl my-2">{title}</h3>
-          <div className="flex justify-between my-4">
-            <div className="text-sGreen font-bold">{info2Data}</div>
-            <div className="bg-sGreen py-2 px-4 rounded-full text-white">{info1Data}</div>
+          <div className="flex flex-wrap-reverse justify-end xl:justify-between">
+            <div className="text-sGreen font-bold my-2">{info2Data}</div>
+            <div className="bg-sGreen py-2 px-4 ml-10 rounded-full text-white my-2">
+              {info1Data}
+            </div>
           </div>
           <HighchartsReact highcharts={Highcharts} options={options} />
         </div>

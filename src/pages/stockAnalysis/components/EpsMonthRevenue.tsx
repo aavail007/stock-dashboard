@@ -18,36 +18,54 @@ const EpsMonthRevenue: React.FC = () => {
     info1: '',
     info2: ''
   });
+  const [monthRevenueData, setMonthRevenueData] = useState<LineChartType>({
+    labels: [],
+    series: [],
+    info1: '',
+    info2: ''
+  });
+
+  const sortOutEpsData = (objData: LineChartType) => {
+    // 本季 EPS
+    const thisSeasonLable = objData.labels.at(-1);
+    const thisSeasonEps = objData.series[0].at(-1);
+    objData.info1 = `${thisSeasonLable} EPS ${thisSeasonEps}`;
+    objData.info2 = `季增 ${epsMonthRevenueQuery?.data?.data.EPS.QoQ}%   年增 ${epsMonthRevenueQuery?.data?.data.EPS.YoY}%`;
+    setEpsData(objData);
+  };
+
+  const sortOutMonthRevenueData = (objData: LineChartType) => {
+    // 本季 EPS
+    const thisMonthLable = objData.labels.at(-1);
+    const thisMonthRevenue = objData.series[0].at(-1);
+    objData.info1 = `${thisMonthLable} 月營收 ${thisMonthRevenue} 億`;
+    objData.info2 = `月增 ${epsMonthRevenueQuery?.data?.data.TaiwanMonthRevenue.MoM}%   年增 ${epsMonthRevenueQuery?.data?.data.TaiwanMonthRevenue.YoY}%`;
+    setMonthRevenueData(objData);
+  };
 
   useEffect(() => {
     // 有些股票沒有此資料(ETF)，因此就不會回 data
     if (epsMonthRevenueQuery.data && epsMonthRevenueQuery.data?.data) {
       console.log('epsMonthRevenueQuery', epsMonthRevenueQuery.data.data);
       const epsDataObj: LineChartType = { ...epsMonthRevenueQuery.data.data.EPS.data };
-      // 本季 EPS
-      const thisSeasonLable = epsDataObj.labels[epsDataObj.labels.length - 1];
-      const thisSeasonEps = epsDataObj.series[0][epsDataObj.series[0].length - 1];
-      // 本季/倒數第二季/第一筆資料的 EPS
-      const last = epsDataObj.series[0].at(-1) ?? null;
-      const last2 = epsDataObj.series[0].at(-2) ?? null;
-      const first = epsDataObj.series[0].at(0) ?? null;
-      // 季增與年增率
-      if (last !== null && last2 !== null && first !== null) {
-        const seasonGrowth = ((last / last2 - 1) * 100).toFixed(2);
-        const yearGrowth = ((last / first - 1) * 100).toFixed(2);
-        epsDataObj.info1 = `${thisSeasonLable} EPS ${thisSeasonEps}`;
-        epsDataObj.info2 = `季增 ${seasonGrowth}% ;  年增 ${yearGrowth}%`;
-      }
-      setEpsData(epsDataObj);
+      const monthRevenueDataObj: LineChartType = {
+        ...epsMonthRevenueQuery.data.data.TaiwanMonthRevenue.data
+      };
+
+      sortOutEpsData(epsDataObj);
+      sortOutMonthRevenueData(monthRevenueDataObj);
     }
   }, [epsMonthRevenueQuery.data]);
   return (
     <>
       {/*  有些股票沒有此資料(ETF)，因此就不會回 data，故就不顯示此區塊 */}
       {!epsMonthRevenueQuery.isLoading && epsMonthRevenueQuery.data?.data && (
-        <div className="flex flex-wrap mx-2 xl:mx-0 my-5">
-          <div className="bg-white shadow-xl p-5 w-full lg:w-1/2 rounded-xl">
+        <div className="grid gap-4 xl:grid-cols-2 mx-2 xl:mx-0 my-5">
+          <div className="bg-white shadow-xl p-5 w-full rounded-xl">
             <LineChart title="EPS" data={epsData}></LineChart>
+          </div>
+          <div className="bg-white shadow-xl p-5 w-full rounded-xl">
+            <LineChart title="月營收" data={monthRevenueData}></LineChart>
           </div>
         </div>
       )}
