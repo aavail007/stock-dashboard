@@ -40,6 +40,7 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
+  maintainAspectRatio: false,
   // showLine: false,
   plugins: {
     legend: {
@@ -99,7 +100,9 @@ const IndicatorChart: React.FC = () => {
           指數: <span className="text-sRed">{chartDataArray[chartDataArray.length - 1]}</span>
         </div>
       </h3>
-      <Line options={options} data={lineData} />
+      <div className="bg-white p-5 rounded-xl shadow-xl">
+        <Line options={options} data={lineData} height={305} />
+      </div>
     </>
   );
 };

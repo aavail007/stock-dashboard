@@ -5,7 +5,7 @@ import Card1 from 'pages/home/components/Card1';
 import Card2 from 'pages/home/components/Card2';
 import Card3 from 'pages/home/components/Card3';
 import Loading from 'components/utils/Loading';
-
+import OrderBookAndTrade from 'pages/home/components/OrderBookAndTrade';
 import IndicatorChart from 'pages/home/components/IndicatorChart';
 import {
   TwStkTotalInstitutionalInvestors,
@@ -68,15 +68,15 @@ const Home: React.FC = () => {
       <>
         {twTotalInstitutionalInvestorsData.length < 1 && (
           <>
-            <h3 className="text-xl text-gray-800 font-bold mb-5">{title}</h3>
+            <h3 className="text-xl text-gray-800 font-bold">{title}</h3>
             <div className="py-10">
               <Loading></Loading>
             </div>
           </>
         )}
-        <div className="relative mb-10">
+        <div className="relative">
           {twTotalInstitutionalInvestorsData.length > 0 && (
-            <h3 className="text-xl text-gray-800 font-bold mb-5">
+            <h3 className="text-xl text-gray-800 font-bold">
               {title} - {twTotalInstitutionalInvestorsData[0].date}
             </h3>
           )}
@@ -106,7 +106,7 @@ const Home: React.FC = () => {
     const title = '資券變化';
     return (
       <>
-        <div className="mb-10 w-full xl:w-1/5">
+        <div className="w-full xl:w-1/5">
           {twStockTotalMarginPurchaseShortSaleData.length < 1 && (
             <>
               <h3 className="text-xl text-gray-800 font-bold mb-5">{title}</h3>
@@ -120,7 +120,7 @@ const Home: React.FC = () => {
               {title} - {twStockTotalMarginPurchaseShortSaleData[0].date}
             </h3>
           )}
-          <div className="flex flex-wrap my-3 xl:pr-4">
+          <div className="flex flex-wrap mt-3 xl:pr-4">
             {twStockTotalMarginPurchaseShortSaleData.map((item) => {
               const { name, buy, sell } = item;
               return (
@@ -143,9 +143,9 @@ const Home: React.FC = () => {
   const USStockPrice: React.FC = () => {
     return (
       <>
-        <div className="mb-10 w-full xl:w-2/5">
+        <div className="relative mb-10 w-full mt-8">
           {uSStockPrice.length > 0 && (
-            <h3 className="text-xl text-gray-800 font-bold mb-5 xl:px-4">
+            <h3 className="text-xl text-gray-800 font-bold mb-5">
               美股指數 - {uSStockPrice[0].date}
             </h3>
           )}
@@ -153,7 +153,9 @@ const Home: React.FC = () => {
             {uSStockPrice.map((item) => {
               const { zh_name, Close, High, Spread } = item;
               return (
-                <div className="w-full lg:w-1/2 lg:px-4 xl:p-0 xl:px-4" key={item.stock_id}>
+                <div
+                  className="w-full lg:w-1/2 xl:w-1/5 px-1 lg:px-4 xl:first:pl-0 xl:last:pr-0"
+                  key={item.stock_id}>
                   <Card3 zh_name={zh_name} close={Close} high={High} spread={Spread}></Card3>
                 </div>
               );
@@ -166,21 +168,22 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <div className="relative px-2 lg:px-10 pt-6">
-        <div className="xl:bg-secondary absolute h-4/5 w-full left-0 top-0 -mt-1"></div>
+      <div className="px-2 lg:px-10 pt-6">
         {/* 三大法人 */}
         <InstitutionalInvestorFc></InstitutionalInvestorFc>
-      </div>
-      <div className="px-2 lg:px-10 py-6">
-        <div className="flex flex-wrap w-full">
+        <div className="flex flex-wrap w-full mt-10">
           {/* 資券變化 */}
           <PurchaseShortSale></PurchaseShortSale>
-          {/* 美股指數 */}
-          <USStockPrice></USStockPrice>
-          <div className="mb-10 w-full xl:w-2/5 px-4">
+          <div className="w-full xl:w-2/5 px-4">
             {/* 台灣加權指數 */}
             <IndicatorChart></IndicatorChart>
           </div>
+          <div className="w-full xl:w-2/5 px-4">
+            {/* 大盤買賣力分析 */}
+            <OrderBookAndTrade></OrderBookAndTrade>
+          </div>
+          {/* 美股指數 */}
+          <USStockPrice></USStockPrice>
         </div>
       </div>
     </>

@@ -45,3 +45,16 @@ export type TwStockPrice = {
   spread: number;
   Trading_turnover: number;
 };
+
+// 每5秒委託成交統計
+export type TwStatisticsOfOrderBookAndTrade = {
+  Time: string;
+  TotalBuyOrder: number;
+  TotalBuyVolume: number;
+  TotalSellOrder: number;
+  TotalSellVolume: number;
+  TotalDealOrder: number;
+  TotalDealVolume: number;
+  TotalDealMoney: number;
+  date: string;
+};
