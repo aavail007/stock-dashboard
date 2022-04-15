@@ -74,7 +74,7 @@ const Home: React.FC = () => {
             </div>
           </>
         )}
-        <div className="mb-10">
+        <div className="relative mb-10">
           {twTotalInstitutionalInvestorsData.length > 0 && (
             <h3 className="text-xl text-gray-800 font-bold mb-5">
               {title} - {twTotalInstitutionalInvestorsData[0].date}
@@ -85,7 +85,7 @@ const Home: React.FC = () => {
               const { name, buy, sell } = item;
               return (
                 <div
-                  className="w-1/2 lg:w-6/12 xl:w-1/5 px-1 lg:px-4 xl:first:pl-0 xl:last:pr-0"
+                  className="w-full lg:w-1/2 xl:w-1/5 px-1 lg:px-4 xl:first:pl-0 xl:last:pr-0"
                   key={item.name}>
                   <Card1
                     translation="TaiwanStockInstitutionalInvestorsBuySell"
@@ -166,9 +166,12 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <div className="px-2 lg:px-10 py-6">
+      <div className="relative px-2 lg:px-10 pt-6">
+        <div className="xl:bg-secondary absolute h-4/5 w-full left-0 top-0 -mt-1"></div>
         {/* 三大法人 */}
         <InstitutionalInvestorFc></InstitutionalInvestorFc>
+      </div>
+      <div className="px-2 lg:px-10 py-6">
         <div className="flex flex-wrap w-full">
           {/* 資券變化 */}
           <PurchaseShortSale></PurchaseShortSale>
