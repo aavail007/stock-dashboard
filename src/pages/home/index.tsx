@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useGetV4DataQuery } from 'services/findmindV4Service';
 import { useGetTodayInfoQuery } from 'services/findmindV2Service';
 import Card1 from 'pages/home/components/Card1';
@@ -14,52 +14,99 @@ import {
 import { TodayInfo, USStockPrice } from 'types/apis/v2Types';
 import { getDate } from 'commonFunc';
 
-const searchDate = getDate(-1);
+let searchDay1 = 0;
+let searchDay2 = 0;
+
 const Home: React.FC = () => {
-  // 取得今天整體資訊
+  let [searchInvestorsDate, setSearchInvestorsDate] = useState(getDate(searchDay1));
+  let [searchPurchaseShortSaleDate, setSearchPurchaseShortSaleDate] = useState(getDate(searchDay2));
+
+  // 取得美股整體資訊=========
   const todayInfo = useGetTodayInfoQuery(null);
   let todayInfoData: TodayInfo;
   let uSStockPrice: USStockPrice[] = [];
   if (todayInfo.data) {
     todayInfoData = todayInfo.data.data;
     uSStockPrice = todayInfoData.USStockPrice;
-    console.log('取得今天整體資訊', uSStockPrice);
+    console.log('取得美股整體資訊', uSStockPrice);
   }
 
-  // 台灣市場整體法人買賣表
+  // 台灣市場整體法人買賣表=============
   const twTotalInstitutionalInvestors = useGetV4DataQuery({
     dataset: 'TaiwanStockTotalInstitutionalInvestors',
-    start_date: searchDate
+    start_date: searchInvestorsDate
   });
-  let twTotalInstitutionalInvestorsData: TwStkTotalInstitutionalInvestors[] = [];
-  if (twTotalInstitutionalInvestors.data) {
-    twTotalInstitutionalInvestorsData = twTotalInstitutionalInvestors.data?.data;
-    console.log(
-      '台灣市場整體法人買賣表: twTotalInstitutionalInvestorsData = ',
-      twTotalInstitutionalInvestorsData
-    );
-    // 過濾掉 total、只拿取最近一天的資料
-    twTotalInstitutionalInvestorsData = twTotalInstitutionalInvestorsData
-      .filter((item) => item.name !== 'total')
-      .reverse()
-      .slice(0, 5);
-  }
+  let [twTotalInstitutionalInvestorsData, setTwTotalInstitutionalInvestorsData] = useState<
+    TwStkTotalInstitutionalInvestors[]
+  >([]);
+  const getTwTotalInstitutionalInvestors = useCallback(async () => {
+    if (twTotalInstitutionalInvestors.data) {
+      setTwTotalInstitutionalInvestorsData(twTotalInstitutionalInvestors.data?.data);
+      console.log(
+        '台灣市場整體法人買賣表: twTotalInstitutionalInvestorsData = ',
+        twTotalInstitutionalInvestorsData
+      );
+      if (twTotalInstitutionalInvestorsData.length > 0) {
+        // 過濾掉 total、只拿取最近一天的資料
+        setTwTotalInstitutionalInvestorsData(
+          twTotalInstitutionalInvestorsData
+            .filter((item) => item.name !== 'total')
+            .reverse()
+            .slice(0, 5)
+        );
+      } else {
+        searchDay1--;
+        await setSearchInvestorsDate(getDate(searchDay1));
+      }
+    }
+  }, [twTotalInstitutionalInvestors.data?.data]);
 
   // 台灣市場整體融資融劵表
   const twStockTotalMarginPurchaseShortSale = useGetV4DataQuery({
     dataset: 'TaiwanStockTotalMarginPurchaseShortSale',
-    start_date: searchDate
+    start_date: searchPurchaseShortSaleDate
   });
-  let twStockTotalMarginPurchaseShortSaleData: TwStkTotalMarginPurchaseShortSale[] = [];
-  if (twStockTotalMarginPurchaseShortSale.data) {
-    twStockTotalMarginPurchaseShortSaleData = twStockTotalMarginPurchaseShortSale.data?.data;
-    // 只拿取最近一天的資料， filter 暫解防跳 "Cannot assign to read only property '0' of object '[object Array]'" 錯誤
-    twStockTotalMarginPurchaseShortSaleData = twStockTotalMarginPurchaseShortSaleData
-      .filter((item) => true)
-      .reverse()
-      .slice(0, 3);
-    console.log('資券', twStockTotalMarginPurchaseShortSaleData);
-  }
+  let [twStockTotalMarginPurchaseShortSaleData, setTwStockTotalMarginPurchaseShortSaleData] =
+    useState<TwStkTotalMarginPurchaseShortSale[]>([]);
+  const getTwStockTotalMarginPurchaseShortSale = useCallback(async () => {
+    if (twStockTotalMarginPurchaseShortSale.data) {
+      setTwStockTotalMarginPurchaseShortSaleData(twStockTotalMarginPurchaseShortSale.data?.data);
+      if (twStockTotalMarginPurchaseShortSaleData.length > 0) {
+        // 只拿取最近一天的資料， filter 暫解防跳 "Cannot assign to read only property '0' of object '[object Array]'" 錯誤
+        setTwStockTotalMarginPurchaseShortSaleData(
+          twStockTotalMarginPurchaseShortSaleData
+            .filter((item) => true)
+            .reverse()
+            .slice(0, 3)
+        );
+        console.log('資券', twStockTotalMarginPurchaseShortSaleData);
+      } else {
+        searchDay2--;
+        await setSearchPurchaseShortSaleDate(getDate(searchDay2));
+      }
+    }
+  }, [twStockTotalMarginPurchaseShortSale.data?.data]);
+
+  useEffect(() => {
+    getTwTotalInstitutionalInvestors();
+  }, [getTwTotalInstitutionalInvestors]);
+  useEffect(() => {
+    getTwStockTotalMarginPurchaseShortSale();
+  }, [getTwStockTotalMarginPurchaseShortSale]);
+
+  useEffect(() => {
+    const fetchInvestorsData = () => {
+      twTotalInstitutionalInvestors.refetch();
+    };
+    fetchInvestorsData();
+  }, [searchInvestorsDate]);
+
+  useEffect(() => {
+    const fetchPurchaseShortSaleData = () => {
+      twStockTotalMarginPurchaseShortSale.refetch();
+    };
+    fetchPurchaseShortSaleData();
+  }, [searchInvestorsDate]);
 
   // 三大法人 Html 區塊
   const InstitutionalInvestorFc: React.FC = () => {

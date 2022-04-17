@@ -1,5 +1,6 @@
 // 每5秒委託成交統計
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import Loading from 'components/utils/Loading';
 import {
   Chart as ChartJS,
   LinearScale,
@@ -26,18 +27,11 @@ ChartJS.register(
   Tooltip
 );
 
-// 判斷現在時間過了 15:00? 過了就請求今天的資料，否則請求前一天的資料
-const checkCloseTime = (): string => {
-  const today = new Date();
-  const hour: number = today.getHours();
-  if (hour >= 15) {
-    return getDate(0);
-  }
-  return getDate(-1);
-};
-const searchDate = checkCloseTime();
+// 搜尋的時間
+let searchDay = 0;
 
 const OrderBookAndTrade: React.FC = () => {
+  let [searchDate, setSearchDate] = useState(getDate(searchDay));
   const orderBookAndTradeQ = useGetV4DataQuery({
     dataset: 'TaiwanStockStatisticsOfOrderBookAndTrade',
     start_date: searchDate
@@ -46,33 +40,46 @@ const OrderBookAndTrade: React.FC = () => {
 
   let orderBookAndTradeData: TwStatisticsOfOrderBookAndTrade[] = [];
   // 總購買量
-  let totalBuyVolume: Array<number> = [];
+  let [totalBuyVolume, setTotalBuyVolume] = useState<Array<number>>([]);
   // 總賣出量
-  let totalSellVolume: Array<number> = [];
+  let [totalSellVolume, setTotalSellVolume] = useState<Array<number>>([]);
+  // 買賣差
+  let [buySellSubtract, setBuySellSubtract] = useState<Array<number>>([]);
   // 買賣量差
-  let buySellSubtract: Array<number> = [];
-  let labelArray: Array<string> = [];
-  if (orderBookAndTradeQ.data) {
-    orderBookAndTradeData = orderBookAndTradeQ.data.data;
-    console.log('orderBookAndTradeData', orderBookAndTradeData);
-    // 10分鐘為單位顯示資料
-    totalBuyVolume = orderBookAndTradeData
-      .map((item) => item.TotalBuyVolume)
-      .filter((item, idx) => idx % 120 === 0);
-    totalSellVolume = orderBookAndTradeData
-      .map((item) => item.TotalSellVolume)
-      .filter((item, idx) => idx % 120 === 0);
-    buySellSubtract = orderBookAndTradeData
-      .map((item) => item.TotalBuyVolume - item.TotalSellVolume)
-      .filter((item, idx) => idx % 120 === 0);
-    totalSellVolume = orderBookAndTradeData
-      .map((item) => item.TotalSellVolume)
-      .filter((item, idx) => idx % 120 === 0);
-    labelArray = orderBookAndTradeData
-      .map((item) => item.Time)
-      .filter((item, idx) => idx % 120 === 0);
-    console.log('totalBuyVolume 整理後', totalBuyVolume);
-  }
+  let [labelArray, setLabelArray] = useState<Array<string>>([]);
+
+  const getOrderBookAndTrade = useCallback(async () => {
+    if (!orderBookAndTradeQ.isLoading && orderBookAndTradeQ.data) {
+      orderBookAndTradeData = orderBookAndTradeQ.data.data;
+      console.log('orderBookAndTradeData', orderBookAndTradeData);
+      if (orderBookAndTradeData.length > 0) {
+        setTotalBuyVolume(
+          orderBookAndTradeData
+            .map((item) => item.TotalBuyVolume)
+            .filter((item, idx) => idx % 120 === 0)
+        );
+        // 10分鐘為單位顯示資料
+        setTotalSellVolume(
+          orderBookAndTradeData
+            .map((item) => item.TotalSellVolume)
+            .filter((item, idx) => idx % 120 === 0)
+        );
+        setBuySellSubtract(
+          orderBookAndTradeData
+            .map((item) => item.TotalBuyVolume - item.TotalSellVolume)
+            .filter((item, idx) => idx % 120 === 0)
+        );
+        setLabelArray(
+          orderBookAndTradeData.map((item) => item.Time).filter((item, idx) => idx % 120 === 0)
+        );
+        console.log('totalBuyVolume 整理後', totalBuyVolume);
+      } else {
+        // 這天沒資料，再往前一天撈資料
+        searchDay--;
+        await setSearchDate(getDate(searchDay));
+      }
+    }
+  }, [orderBookAndTradeQ.data?.data]);
 
   const lineData = {
     labels: labelArray,
@@ -102,6 +109,17 @@ const OrderBookAndTrade: React.FC = () => {
     ]
   };
 
+  useEffect(() => {
+    const fetchData = () => {
+      orderBookAndTradeQ.refetch();
+    };
+    fetchData();
+  }, [searchDate]);
+
+  useEffect(() => {
+    getOrderBookAndTrade();
+  }, [getOrderBookAndTrade]);
+
   const options = {
     maintainAspectRatio: false,
     scales: {
@@ -116,7 +134,14 @@ const OrderBookAndTrade: React.FC = () => {
         <div>大盤買賣力 - {searchDate}</div>
       </h3>
       <div className="bg-white p-5 rounded-xl shadow-xl">
-        <Chart type="bar" data={lineData} options={options} height={305} />
+        {!orderBookAndTradeQ.isLoading && orderBookAndTradeQ.data && (
+          <Chart type="bar" data={lineData} options={options} height={305} />
+        )}
+        {orderBookAndTradeQ.isLoading && (
+          <div className="flex items-center justify-center h-[305px]">
+            <Loading />
+          </div>
+        )}
       </div>
     </>
   );
