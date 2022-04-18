@@ -24,7 +24,7 @@ const Search: React.FC = () => {
       console.log('取得所有個股基本資訊', allStockInfoList);
       dispatch(setAllStockInfo(allStockInfoList));
     }
-  }, []);
+  }, [allStockInfo.data]);
 
   useEffect(() => {
     getAllStock();
