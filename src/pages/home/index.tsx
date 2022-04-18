@@ -18,6 +18,7 @@ let searchDay1 = 0;
 let searchDay2 = 0;
 
 const Home: React.FC = () => {
+  // 搜尋的時間
   let [searchInvestorsDate, setSearchInvestorsDate] = useState(getDate(searchDay1));
   let [searchPurchaseShortSaleDate, setSearchPurchaseShortSaleDate] = useState(getDate(searchDay2));
 
@@ -41,21 +42,18 @@ const Home: React.FC = () => {
   >([]);
   const getTwTotalInstitutionalInvestors = useCallback(async () => {
     if (twTotalInstitutionalInvestors.data) {
-      setTwTotalInstitutionalInvestorsData(twTotalInstitutionalInvestors.data?.data);
-      console.log(
-        '台灣市場整體法人買賣表: twTotalInstitutionalInvestorsData = ',
-        twTotalInstitutionalInvestorsData
-      );
-      if (twTotalInstitutionalInvestorsData.length > 0) {
+      const data: TwStkTotalInstitutionalInvestors[] = twTotalInstitutionalInvestors.data.data;
+      console.log('台灣市場整體法人買賣表: twTotalInstitutionalInvestorsData = ', data);
+      if (data.length > 0) {
         // 過濾掉 total、只拿取最近一天的資料
         setTwTotalInstitutionalInvestorsData(
-          twTotalInstitutionalInvestorsData
+          data
             .filter((item) => item.name !== 'total')
             .reverse()
             .slice(0, 5)
         );
       } else {
-        searchDay1--;
+        searchDay1 = searchDay1 - 4;
         await setSearchInvestorsDate(getDate(searchDay1));
       }
     }
@@ -70,18 +68,19 @@ const Home: React.FC = () => {
     useState<TwStkTotalMarginPurchaseShortSale[]>([]);
   const getTwStockTotalMarginPurchaseShortSale = useCallback(async () => {
     if (twStockTotalMarginPurchaseShortSale.data) {
-      setTwStockTotalMarginPurchaseShortSaleData(twStockTotalMarginPurchaseShortSale.data?.data);
-      if (twStockTotalMarginPurchaseShortSaleData.length > 0) {
+      const data: TwStkTotalMarginPurchaseShortSale[] =
+        twStockTotalMarginPurchaseShortSale.data?.data;
+      if (data.length > 0) {
         // 只拿取最近一天的資料， filter 暫解防跳 "Cannot assign to read only property '0' of object '[object Array]'" 錯誤
         setTwStockTotalMarginPurchaseShortSaleData(
-          twStockTotalMarginPurchaseShortSaleData
+          data
             .filter((item) => true)
             .reverse()
             .slice(0, 3)
         );
         console.log('資券', twStockTotalMarginPurchaseShortSaleData);
       } else {
-        searchDay2--;
+        searchDay2 = searchDay2 - 4;
         await setSearchPurchaseShortSaleDate(getDate(searchDay2));
       }
     }
@@ -106,7 +105,7 @@ const Home: React.FC = () => {
       twStockTotalMarginPurchaseShortSale.refetch();
     };
     fetchPurchaseShortSaleData();
-  }, [searchInvestorsDate]);
+  }, [searchPurchaseShortSaleDate]);
 
   // 三大法人 Html 區塊
   const InstitutionalInvestorFc: React.FC = () => {
