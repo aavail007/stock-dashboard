@@ -81,6 +81,7 @@ const Dividend: React.FC = () => {
             return (
               <li className="nav-item" role="presentation" key={tab.id}>
                 <a
+                  data-testid={`t-${tab.id}-tab-btn`}
                   href={`#tabs-${tab.id}`}
                   className={`nav-link
                   block
@@ -110,13 +111,15 @@ const Dividend: React.FC = () => {
         </ul>
         <div className="tab-content " id="tabs-tabContent">
           <div
+            data-testid="t-cash-tab"
             className="tab-pane fade show active"
             id="tabs-cash"
             role="tabpanel"
-            aria-labelledby="tabs-cash-tab">
+            aria-labelledby="tabs-stock-tab">
             <Table rows={cashDividendRows} columns={cashDividendColumns} height="500px"></Table>
           </div>
           <div
+            data-testid="t-stock-tab"
             className="tab-pane fade"
             id="tabs-stock"
             role="tabpanel"
