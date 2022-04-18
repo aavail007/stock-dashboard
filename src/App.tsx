@@ -4,6 +4,8 @@ import routes from './routes';
 
 const App: React.FC = () => {
   const element = useRoutes(routes);
+  console.log('04-18');
+
   return element;
 };
 
