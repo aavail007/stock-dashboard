@@ -34,7 +34,13 @@ const Header: React.FC = () => {
             </li>
           </ul>
         </div>
-        {/* <div className="cursor-pointer">登入</div> */}
+        {/* <div
+          className="cursor-pointer"
+          onClick={() => {
+            goPage('/login');
+          }}>
+          登入
+        </div> */}
       </div>
     </header>
   );
