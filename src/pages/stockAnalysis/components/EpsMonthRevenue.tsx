@@ -27,17 +27,17 @@ const EpsMonthRevenue: React.FC = () => {
 
   const sortOutEpsData = (objData: LineChartType) => {
     // 本季 EPS
-    const thisSeasonLable = objData.labels.at(-1);
-    const thisSeasonEps = objData.series[0].at(-1);
+    const thisSeasonLable = objData.labels[objData.labels.length - 1];
+    const thisSeasonEps = objData.series[0][objData.series[0].length - 1];
     objData.info1 = `${thisSeasonLable} EPS ${thisSeasonEps}`;
     objData.info2 = `季增 ${epsMonthRevenueQuery?.data?.data.EPS.QoQ}%   年增 ${epsMonthRevenueQuery?.data?.data.EPS.YoY}%`;
     setEpsData(objData);
   };
 
   const sortOutMonthRevenueData = (objData: LineChartType) => {
-    // 本季 EPS
-    const thisMonthLable = objData.labels.at(-1);
-    const thisMonthRevenue = objData.series[0].at(-1);
+    // 本月營收
+    const thisMonthLable = objData.labels[objData.labels.length - 1];
+    const thisMonthRevenue = objData.series[0][objData.series[0].length - 1];
     objData.info1 = `${thisMonthLable} 月營收 ${thisMonthRevenue} 億`;
     objData.info2 = `月增 ${epsMonthRevenueQuery?.data?.data.TaiwanMonthRevenue.MoM}%   年增 ${epsMonthRevenueQuery?.data?.data.TaiwanMonthRevenue.YoY}%`;
     setMonthRevenueData(objData);
