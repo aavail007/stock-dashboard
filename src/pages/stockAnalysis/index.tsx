@@ -42,7 +42,7 @@ const StockAnalysis: React.FC = () => {
   }, [personalStock.data]);
   return (
     <>
-      <div className="w-full xl:max-w-[1366px] m-auto">
+      <div className="w-full xl:max-w-[1366px] m-auto lg:p-4">
         <Search></Search>
         <h3 className="text-4xl text-fourth font-bold mb-3 mx-2 lg:mx-0">
           {stockId} {stockName}
